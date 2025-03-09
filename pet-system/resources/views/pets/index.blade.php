@@ -1,15 +1,16 @@
 @extends('layouts.app')
 @section('content')
 
-<!-- External Scripts & Styles -->
+
 @push('scripts')
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
 @endpush
 
 <div class="container mt-4">
@@ -36,6 +37,7 @@
         </table>
     </div>
 </div>
+
     {{-- Add modal --}}
     <div class="modal " id="addPetModal" tabindex="-1" aria-labelledby="addPetModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -193,6 +195,7 @@
         </div>
     </div>
 
+    {{-- Image modal - needed to fix --}}
     <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -318,11 +321,11 @@ $(document).ready(function () {
             text     : '<i class="bi bi-file-earmark-pdf"></i> PDF',
             className: 'btn btn-secondary'
         },
-        // {
-        //     extend   : 'print',
-        //     text     : '<i class="bi bi-printer"></i> Print',
-        //     className: 'btn btn-secondary'
-        // }
+        {
+            extend   : 'print',
+            text     : '<i class="bi bi-printer"></i> Print',
+            className: 'btn btn-secondary'
+        }
     ]
 });
 

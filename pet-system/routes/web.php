@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PetController;
@@ -31,15 +31,19 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 });
 
-// Roles
+// Admin
+Route::group(['middleware' => ['auth', 'role:superadministrator|administrator']], function () {
+    Route::get('/account', [UserController::class, 'account'])->name('account');
+    Route::get('/accounts/data', [UserController::class, 'getUsersData'])->name('accounts.data');
+    Route::post('/accounts/update/{id}', [UserController::class, 'updateUser'])->name('accounts.update');
+    Route::delete('/accounts/delete/{id}', [UserController::class, 'deleteUser'])->name('accounts.delete');
+    Route::get('/roles', [UserController::class, 'getRoles']);
+    Route::post('/assign-role', [UserController::class, 'createRoles'])->name('assign.role');
+    Route::post('/accounts/register', [UserController::class, 'store'])->name('accounts.register');
+});
+
+// User and Reader
 Route::group(['middleware' => ['auth', 'role:superadministrator|administrator|user|reader']], function () {
-    // Route::get('/account', [UserController::class, 'account'])->name('account');
-    // Route::get('/accounts/data', [UserController::class, 'getUsersData'])->name('accounts.data');
-    // Route::post('/accounts/update/{id}', [UserController::class, 'updateUser'])->name('accounts.update');
-    // Route::delete('/accounts/delete/{id}', [UserController::class, 'deleteUser'])->name('accounts.delete');
-    // Route::get('/roles', [RoleController::class, 'getRoles']);
-    // Route::post('/assign-role', [UserController::class, 'createRoles'])->name('assign.role');
-    // Route::post('/create-account', [UserController::class, 'createAccount'])->name('create.account');
 
     Route::get('/pets/create', [PetController::class, 'create'])->name('pets.create');
     Route::post('/pets', [PetController::class, 'store'])->name('pets.store');
@@ -56,7 +60,6 @@ Route::group(['middleware' => ['auth', 'role:superadministrator|administrator|us
     Route::get('/pets', [PetController::class, 'index'])->name('pets.index');
     Route::get('/pet-list', [PetController::class, 'getPet'])->name('pets.getPet');
 });
-
 
 
 Auth::routes(['verify' => true]);

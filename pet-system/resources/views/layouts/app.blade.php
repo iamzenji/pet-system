@@ -49,7 +49,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {{-- Custom JS --}}
-    @vite(['resources/js/app.js'])
+    {{-- @vite(['resources/js/app.js']) --}}
 
     @stack('scripts')
 </body>

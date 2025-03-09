@@ -1,6 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+
+@push('scripts')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+@endpush
+
 <div class="container">
     <h1>Registered Accounts</h1>
     <table id="accounts-table" class="table">
@@ -102,8 +115,7 @@
 @endsection
 
 @push('scripts')
-<!-- Include SweetAlert -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
 
 <script>
     $(document).ready(function () {
@@ -176,6 +188,28 @@
                 }
             }
         ]
+    });
+
+    $('#createAccountForm').on('submit', function (e) {
+        e.preventDefault();
+        let formData = $(this).serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ route('accounts.register') }}",
+            data: formData,
+            success: function (response) {
+                Swal.fire('Success!', response.success, 'success');
+                $('#addAccountModal').modal('hide');
+                $('#createAccountForm')[0].reset();
+                $('#accounts-table').DataTable().ajax.reload();
+            },
+            error: function (xhr) {
+                let errors = xhr.responseJSON.errors;
+                let errorMessage = Object.values(errors).join('<br>');
+                Swal.fire('Error!', errorMessage, 'error');
+            }
+        });
     });
 
     // Open Edit Modal
@@ -272,48 +306,7 @@
             }
         });
     });
-    $('#createAccountForm').submit(function (e) {
-        e.preventDefault();
-
-        $.ajax({
-            url: "{{ route('create.account') }}",
-            type: "POST",
-            data: $(this).serialize(),
-            success: function (response) {
-                Swal.fire({
-                    title: "Success!",
-                    text: response.success,
-                    icon: "success",
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-
-                $('#addAccountModal').modal('hide');  // Close modal
-                $('#createAccountForm')[0].reset();  // Reset form
-
-                // Optionally, refresh the table/list of accounts without reloading
-                loadAccounts();
-            },
-            error: function (xhr) {
-                let errors = xhr.responseJSON.errors;
-                let errorMsg = "";
-                
-                if (errors) {
-                    $.each(errors, function (key, value) {
-                        errorMsg += value[0] + "\n";
-                    });
-                } else {
-                    errorMsg = "Something went wrong. Please try again.";
-                }
-
-                Swal.fire({
-                    title: "Error!",
-                    text: errorMsg,
-                    icon: "error",
-                });
-            }
-        });
-    });
+    
 
     function loadAccounts() {
         $.ajax({

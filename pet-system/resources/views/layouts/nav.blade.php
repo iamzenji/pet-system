@@ -16,6 +16,13 @@
                 {{-- <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('account') ? 'active' : '' }}" href="{{ route('account') }}">Account</a>
                 </li> --}}
+                @php
+                    $userRoleId = Auth::check() ? Auth::user()->roles->first()->id : null;
+                @endphp
+
+                <li class="nav-item" @if($userRoleId == 3 || $userRoleId == 4) style="display: none;" @endif>
+                    <a class="nav-link {{ request()->routeIs('account') ? 'active' : '' }}" href="{{ route('account') }}">Account</a>
+                </li>
                 @auth
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('pets.manage') ? 'active' : '' }}" href="{{ route('pets.manage') }}">
