@@ -2,18 +2,6 @@
 
 @section('content')
 
-@push('scripts')
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
-@endpush
-
 <div class="container">
     <h1>Registered Accounts</h1>
     <table id="accounts-table" class="table">
@@ -30,6 +18,7 @@
     </table>
 </div>
 
+{{-- ADD MODAL ACCOUNT --}}
 <div class="modal fade" id="addAccountModal" tabindex="-1" aria-labelledby="addAccountModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -73,8 +62,7 @@
     </div>
 </div>
 
-
-<!-- Edit User Modal -->
+<!-- EDIT USER MODAL -->
 <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -113,212 +101,3 @@
     </div>
 </div>
 @endsection
-
-@push('scripts')
-{{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
-
-<script>
-    $(document).ready(function () {
-    let table = $('#accounts-table').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: "{{ route('accounts.data') }}",
-        dom: 'Bfrtip',
-        buttons: [
-            {
-                text: '<i class="bi bi-plus-lg"></i> Add',
-                className: 'btn btn-secondary',
-                action: function (e, dt, node, config) {
-                    $('#addAccountModal').modal('show');
-                }
-            },
-            {
-                extend: 'copy',
-                text: '<i class="bi bi-clipboard"></i> Copy',
-                className: 'btn btn-secondary'
-            },
-            {
-                extend: 'excel',
-                text: '<i class="bi bi-file-earmark-excel"></i> Excel',
-                className: 'btn btn-secondary'
-            },
-            {
-                extend: 'csv',
-                text: '<i class="bi bi-file-earmark-text"></i> CSV',
-                className: 'btn btn-secondary'
-            },
-            {
-                extend: 'pdf',
-                text: '<i class="bi bi-file-earmark-pdf"></i> PDF',
-                className: 'btn btn-secondary'
-            },
-            {
-                extend: 'print',
-                text: '<i class="bi bi-printer"></i> Print',
-                className: 'btn btn-secondary'
-            }
-        ],
-        columns: [
-            { data: 'id', name: 'id' },
-            { data: 'name', name: 'name' },
-            { data: 'email', name: 'email' },
-            { data: 'role', name: 'role', orderable: false, searchable: false },
-            { data: 'created_at', name: 'created_at' },
-            {
-                data: null,
-                orderable: false,
-                searchable: false,
-                render: function (data, type, row) {
-                    return `
-                        <button class="btn btn-warning btn-sm edit-user"
-                                data-id="${row.id}"
-                                data-name="${row.name}"
-                                data-email="${row.email}"
-                                data-role="${row.role}"
-                                data-bs-toggle="modal"
-                                data-bs-target="#editUserModal">
-                            Edit
-                        </button>
-
-                        <button class="btn btn-danger btn-sm delete-user"
-                                data-id="${row.id}">
-                            Delete
-                        </button>
-                    `;
-                }
-            }
-        ]
-    });
-
-    $('#createAccountForm').on('submit', function (e) {
-        e.preventDefault();
-        let formData = $(this).serialize();
-
-        $.ajax({
-            type: 'POST',
-            url: "{{ route('accounts.register') }}",
-            data: formData,
-            success: function (response) {
-                Swal.fire('Success!', response.success, 'success');
-                $('#addAccountModal').modal('hide');
-                $('#createAccountForm')[0].reset();
-                $('#accounts-table').DataTable().ajax.reload();
-            },
-            error: function (xhr) {
-                let errors = xhr.responseJSON.errors;
-                let errorMessage = Object.values(errors).join('<br>');
-                Swal.fire('Error!', errorMessage, 'error');
-            }
-        });
-    });
-
-    // Open Edit Modal
-    $(document).on('click', '.edit-user', function() {
-        let userId    = $(this).data('id');
-        let userName  = $(this).data('name');
-        let userEmail = $(this).data('email');
-        let userRole  = $(this).data('role');
-
-        $('#edit-user-id').val(userId);
-        $('#edit-user-name').val(userName);
-        $('#edit-user-email').val(userEmail);
-
-        let roleDropdown = $('#edit-user-role');
-        roleDropdown.empty();
-
-        $.get('{{ url("/roles") }}', function(response) {
-            response.roles.forEach(role => {
-                roleDropdown.append(`<option value="${role.id}" ${userRole === role.name ? 'selected' : ''}>${role.name}</option>`);
-            });
-        });
-    });
-
-
-
-    // Handle Update Form Submission
-    $('#editUserForm').submit(function(event) {
-        event.preventDefault();12
-
-        let userId = $('#edit-user-id').val();
-        let userName = $('#edit-user-name').val();
-        let userEmail = $('#edit-user-email').val();
-        let userRole = $('#edit-user-role').val();  // Ensure this is the role ID
-
-        $.ajax({
-        url: '{{ url("accounts/update") }}/' + userId,
-        type: 'POST',
-        data: {
-            _token: '{{ csrf_token() }}',
-            name: userName,
-            email: userEmail,
-            role: userRole // Ensure this is the correct role ID
-        },
-        success: function(response) {
-            $('#editUserModal').modal('hide');
-            Swal.fire({
-                icon: 'success',
-                title: 'Updated!',
-                text: response.success
-            });
-            table.ajax.reload();
-        },
-        error: function(xhr) {
-            console.log(xhr.responseJSON);
-            Swal.fire({
-                icon: 'error',
-                title: 'Update Failed',
-                text: xhr.responseJSON ? xhr.responseJSON.message : 'An unknown error occurred'
-            });
-        }
-    });
-
-    });
-
-    // Handle Delete Button Click
-    $(document).on('click', '.delete-user', function() {
-        let userId = $(this).data('id');
-
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "This action cannot be undone!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: '{{ url("accounts/delete") }}/' + userId,
-                    type: 'DELETE',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Deleted!',
-                            text: response.success
-                        });
-                        table.ajax.reload();
-                    }
-                });
-            }
-        });
-    });
-    
-
-    function loadAccounts() {
-        $.ajax({
-            url: "{{ route('account') }}",
-            type: "GET",
-            success: function (data) {
-                $('#accountList').html(data);
-            }
-        });
-    }
-    
-});
-
-</script>
-@endpush

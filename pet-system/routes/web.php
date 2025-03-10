@@ -31,7 +31,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 });
 
-// Admin
+// ADMIN
 Route::group(['middleware' => ['auth', 'role:superadministrator|administrator']], function () {
     Route::get('/account', [UserController::class, 'account'])->name('account');
     Route::get('/accounts/data', [UserController::class, 'getUsersData'])->name('accounts.data');
@@ -42,7 +42,7 @@ Route::group(['middleware' => ['auth', 'role:superadministrator|administrator']]
     Route::post('/accounts/register', [UserController::class, 'store'])->name('accounts.register');
 });
 
-// User and Reader
+// USER AND READER
 Route::group(['middleware' => ['auth', 'role:superadministrator|administrator|user|reader']], function () {
 
     Route::get('/pets/create', [PetController::class, 'create'])->name('pets.create');

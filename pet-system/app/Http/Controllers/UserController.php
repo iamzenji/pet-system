@@ -18,6 +18,7 @@ class UserController extends Controller
         return view('pets.account', compact('roles'));
     }
 
+    // USER DATA
     public function getUsersData()
     {
         $users = User::with('roles')->select('id', 'name', 'email', 'created_at');
@@ -29,6 +30,7 @@ class UserController extends Controller
             ->make(true);
     }
 
+    // UPDATE USER
     public function updateUser(Request $request, $id)
     {
         try {
@@ -61,6 +63,8 @@ class UserController extends Controller
             return response()->json(['error' => 'Update failed', 'message' => $e->getMessage()], 500);
         }
     }
+
+    // DELETE USER
     public function deleteUser($id)
     {
         $user = User::findOrFail($id);
@@ -69,11 +73,13 @@ class UserController extends Controller
         return response()->json(['success' => 'User deleted successfully']);
     }
 
+    // FETCH ROLE
     public function getRoles()
     {
         return response()->json(['roles' => Role::all()]);
     }
 
+    // CREATE DATA
     public function store(Request $request)
     {
         $request->validate([
