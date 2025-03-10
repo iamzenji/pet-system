@@ -1,6 +1,7 @@
 @extends('layouts.app')
-
 @section('content')
+
+{{-- DISPLAY DATA --}}
 <div class="container">
     <h2>Manage Pet Types & Breeds</h2>
 
@@ -70,5 +71,4 @@
 </div>
 
 @endsection
-
 

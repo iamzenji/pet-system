@@ -13,6 +13,11 @@
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('pets.index') ? 'active' : '' }}" href="{{ route('pets.index') }}">Pets</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('pets.analytics') ? 'active' : '' }}" href="{{ route('pets.analytics') }}">
+                        Analytics
+                    </a>
+                </li>
                 {{-- <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('account') ? 'active' : '' }}" href="{{ route('account') }}">Account</a>
                 </li> --}}

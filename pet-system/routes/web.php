@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TypeController;
+use App\Http\Controllers\PetAnalyticsController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -59,6 +60,18 @@ Route::group(['middleware' => ['auth', 'role:superadministrator|administrator|us
 
     Route::get('/pets', [PetController::class, 'index'])->name('pets.index');
     Route::get('/pet-list', [PetController::class, 'getPet'])->name('pets.getPet');
+
+    // Display Analytics Page
+    Route::get('/pets/analytics', [PetAnalyticsController::class, 'index'])->name('pets.analytics');
+
+    // API for Chart Data
+    Route::get('/pets/analytics', [PetAnalyticsController::class, 'index'])->name('pets.analytics');
+    Route::get('/pets/analytics/data', [PetAnalyticsController::class, 'getAnalyticsData'])->name('pets.analytics.data');
+    Route::get('/pets/analytics/breeds/{type}', [PetAnalyticsController::class, 'getBreedAnalyticsData']);
+    Route::get('/users/analytics/data', [PetAnalyticsController::class, 'getUserAnalytics'])->name('users.analytics.data');
+
+
+
 });
 
 
