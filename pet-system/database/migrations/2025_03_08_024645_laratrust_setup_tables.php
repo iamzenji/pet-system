@@ -83,3 +83,5 @@ class LaratrustSetupTables extends Migration
         Schema::dropIfExists('roles');
     }
 }
+
+

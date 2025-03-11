@@ -19,6 +19,12 @@ class Pet extends Model
         'size',
         'age',
         'weight',
-        'image'
+        'image',
+        'temperament',
+        'health_status',
+        'spayed_neutered',
+        'vaccination_status',
+        'good_with',
+        'adoption_status'
     ];
 }

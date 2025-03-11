@@ -1,16 +1,12 @@
 <?php
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\PetAnalyticsController;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use Yajra\DataTables\Facades\DataTables;
-use App\Http\Controllers\RoleController;
+
 
 
 /*
@@ -47,19 +43,21 @@ Route::group(['middleware' => ['auth', 'role:superadministrator|administrator']]
 Route::group(['middleware' => ['auth', 'role:superadministrator|administrator|user|reader']], function () {
 
     Route::get('/pets/create', [PetController::class, 'create'])->name('pets.create');
-    Route::post('/pets', [PetController::class, 'store'])->name('pets.store');
+    Route::post('/pets/store', [PetController::class, 'store'])->name('pets.store');
     Route::get('/types/fetch', [TypeController::class, 'fetchTypes'])->name('types.fetch');
     Route::get('/types/fetch-breeds', [TypeController::class, 'fetchBreeds'])->name('types.fetchBreeds');
     Route::put('/pets/{id}', [PetController::class, 'update'])->name('pets.update');
     Route::delete('/pets/{id}', [PetController::class, 'destroy'])->name('pets.destroy');
+    Route::get('/pets', [PetController::class, 'index'])->name('pets.index');
+    Route::get('/pet-list', [PetController::class, 'getPet'])->name('pets.getPet');
+
     Route::get('/pets/manage', [TypeController::class, 'index'])->name('pets.manage');
     Route::get('/types/list', [TypeController::class, 'list']);
     Route::post('/types', [TypeController::class, 'store']);
     Route::delete('/types/{id}', [TypeController::class, 'destroy']);
     Route::put('/types/{id}', [TypeController::class, 'update']);
 
-    Route::get('/pets', [PetController::class, 'index'])->name('pets.index');
-    Route::get('/pet-list', [PetController::class, 'getPet'])->name('pets.getPet');
+
 
     // Display Analytics Page
     Route::get('/pets/analytics', [PetAnalyticsController::class, 'index'])->name('pets.analytics');
