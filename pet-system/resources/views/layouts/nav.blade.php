@@ -18,6 +18,11 @@
                         Analytics
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('adoptions.index') ? 'active' : '' }}" href="{{ route('adoptions.index') }}">
+                        Adoption Requests
+                    </a>
+                </li>
                 {{-- <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('account') ? 'active' : '' }}" href="{{ route('account') }}">Account</a>
                 </li> --}}

@@ -21,24 +21,24 @@ class PetController extends Controller
 
         return DataTables::make($query->get())->toJson();
     }
-
+      // ADD PET
     public function store(Request $request)
     {
         $request->validate([
-            'type' => 'required|string',
-            'breed' => 'required|string',
-            'gender' => 'required|string',
-            'color' => 'required|string',
-            'size' => 'required|string',
-            'age' => 'required|integer',
-            'weight' => 'required|numeric',
-            'health_status' => 'required|string',
-            'spayed_neutered' => 'required|string',
+            'type'               => 'required|string',
+            'breed'              => 'required|string',
+            'gender'             => 'required|string',
+            'color'              => 'required|string',
+            'size'               => 'required|string',
+            'age'                => 'required|integer',
+            'weight'             => 'required|numeric',
+            'health_status'      => 'required|string',
+            'spayed_neutered'    => 'required|string',
             'vaccination_status' => 'required|string',
-            'good_with' => 'required|string',
-            'adoption_status' => 'required|string',
-            'temperament' => 'required|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'good_with'          => 'required|string',
+            'adoption_status'    => 'required|string',
+            'temperament'        => 'required|string',
+            'image'              => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
@@ -48,26 +48,26 @@ class PetController extends Controller
         }
 
         Pet::create([
-            'type' => $request->type,
-            'breed' => $request->breed,
-            'gender' => $request->gender,
-            'color' => $request->color,
-            'size' => $request->size,
-            'age' => $request->age,
-            'weight' => $request->weight,
-            'health_status' => $request->health_status,
-            'spayed_neutered' => $request->spayed_neutered,
+            'type'               => $request->type,
+            'breed'              => $request->breed,
+            'gender'             => $request->gender,
+            'color'              => $request->color,
+            'size'               => $request->size,
+            'age'                => $request->age,
+            'weight'             => $request->weight,
+            'health_status'      => $request->health_status,
+            'spayed_neutered'    => $request->spayed_neutered,
             'vaccination_status' => $request->vaccination_status,
-            'good_with' => $request->good_with,
-            'adoption_status' => $request->adoption_status,
-            'temperament' => $request->temperament,
-            'image' => $imagePath,
+            'good_with'          => $request->good_with,
+            'adoption_status'    => $request->adoption_status,
+            'temperament'        => $request->temperament,
+            'image'              => $imagePath,
         ]);
 
         return response()->json(['message' => 'Pet added successfully!'], 200);
     }
 
-
+      // UPDATE PET
     public function update(Request $request, $id)
     {
         try {
@@ -110,7 +110,7 @@ class PetController extends Controller
             ], 500);
         }
     }
-
+      // DESTROY PET
     public function destroy($id)
     {
         $pet = Pet::find($id);
@@ -137,4 +137,6 @@ class PetController extends Controller
             ], 500);
         }
     }
+
+
 }

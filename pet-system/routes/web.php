@@ -5,6 +5,7 @@ use App\Http\Controllers\PetController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\PetAnalyticsController;
+use App\Http\Controllers\AdoptionController;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -25,7 +26,6 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
-
 });
 
 // ADMIN
@@ -51,27 +51,33 @@ Route::group(['middleware' => ['auth', 'role:superadministrator|administrator|us
     Route::get('/pets', [PetController::class, 'index'])->name('pets.index');
     Route::get('/pet-list', [PetController::class, 'getPet'])->name('pets.getPet');
 
+    // TYPE
     Route::get('/pets/manage', [TypeController::class, 'index'])->name('pets.manage');
     Route::get('/types/list', [TypeController::class, 'list']);
     Route::post('/types', [TypeController::class, 'store']);
     Route::delete('/types/{id}', [TypeController::class, 'destroy']);
     Route::put('/types/{id}', [TypeController::class, 'update']);
 
-
-
-    // Display Analytics Page
+    // ANALYTICS
     Route::get('/pets/analytics', [PetAnalyticsController::class, 'index'])->name('pets.analytics');
-
-    // API for Chart Data
     Route::get('/pets/analytics', [PetAnalyticsController::class, 'index'])->name('pets.analytics');
     Route::get('/pets/analytics/data', [PetAnalyticsController::class, 'getAnalyticsData'])->name('pets.analytics.data');
     Route::get('/pets/analytics/breeds/{type}', [PetAnalyticsController::class, 'getBreedAnalyticsData']);
     Route::get('/users/analytics/data', [PetAnalyticsController::class, 'getUserAnalytics'])->name('users.analytics.data');
 
+    // EMAIL INQUIRY
+    Route::get('/adoptions', [AdoptionController::class, 'index'])->name('adoptions.index');
+    Route::get('/adoptions/list', [AdoptionController::class, 'list'])->name('adoptions.list');
+    Route::delete('/adoptions/{id}', [AdoptionController::class, 'destroy'])->name('adoptions.destroy');
+    Route::patch('/adoptions/{id}/status', [AdoptionController::class, 'updateStatus']);
 
 
 });
 
+// PUBLIC VIEW
+
+Route::post('/adoption/store', [AdoptionController::class, 'store'])->name('adoption.store');
+Route::get('/adoption/pets', [AdoptionController::class, 'showAvailablePets'])->name('adoption.pets');
 
 Auth::routes(['verify' => true]);
 Route::get('/home', [HomeController::class, 'index'])->name('home');
