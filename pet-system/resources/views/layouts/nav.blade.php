@@ -11,6 +11,9 @@
                     <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('list') ? 'active' : '' }}" href="{{ route('adoption.pets') }}">Adopt Pet</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('pets.index') ? 'active' : '' }}" href="{{ route('pets.index') }}">Pets</a>
                 </li>
                 <li class="nav-item">

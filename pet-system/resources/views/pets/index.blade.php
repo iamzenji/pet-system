@@ -3,12 +3,13 @@
 
 
     {{-- DISPLAY DATA --}}
-    <div   class = "container mt-4">
-        <h1    class = "text-center">Pet List</h1>
-        <div   class = "table-responsive">
-            <table id    = "petTable" class = "table table-striped">
+    <div class="container mt-4">
+        <h1 class="text-center">Pet List</h1>
+        <div style="border: 1px solid #ddd; border-radius: 10px; padding: 10px; border-collapse: separate; border-spacing: 0;">
+            <table id="petTable" class="table table-striped">
                 <thead>
                     <tr>
+                        <th>Pet ID</th>
                         <th>Pet Type</th>
                         <th>Breed</th>
                         <th>Gender</th>
@@ -23,7 +24,7 @@
                         <th>Good With</th>
                         <th>Adoption Status</th>
                         <th>Image</th>
-                        <th style = "width: 150px;">Actions</th>
+                        <th style="width: 150px;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,6 +32,7 @@
             </table>
         </div>
     </div>
+
 
     {{-- ADD MODAL --}}
     <div class="modal" id="addPetModal" tabindex="-1" aria-labelledby="addPetModalLabel" aria-hidden="true">
@@ -377,7 +379,7 @@
                         }
                     ];
         var BUTTONS = $.merge(specific_table,TABLE_BUTTONS);
-        let  table = $('#petTable').DataTable({
+            let  table = $('#petTable').DataTable({
                     processing: true,
                     serverSide: true,
                     ajax      : {
@@ -388,6 +390,7 @@
                         },
                     },
                     columns: [
+                        { data: 'unique_id' },
                         { data: 'type' },
                         { data: 'breed' },
                         { data: 'gender' },
@@ -465,10 +468,10 @@
                     ordering   : true,
                     searching  : true,
                     buttons:BUTTONS,
-                });
+            });
 
-            // ADD PET
-            $('#confirmSubmit').on('click', function (e) {
+        // ADD PET
+        $('#confirmSubmit').on('click', function (e) {
             e.preventDefault();
 
             Swal.fire({
@@ -604,15 +607,14 @@
             $('select[name="breed"]').empty().append('<option value="">Select Breed</option>');
         }
     });
-        // DELETE PET
-        $(document).on('click', '.delete-btn', function () {
-            let petId = $(this).data('id');
-            $('.confirm-delete').data('id', petId);
-        });
 
-        $(document).on('click', '.confirm-delete', function () {
-            let petId = $(this).data('id');
-
+    // DELETE PET
+    $(document).on('click', '.delete-btn', function () {
+        let petId = $(this).data('id');
+        $('.confirm-delete').data('id', petId);
+    });
+    $(document).on('click', '.confirm-delete', function () {
+        let petId = $(this).data('id');
             $.ajax({
                 url    : `/pets/${petId}`,
                 type   : 'DELETE',
@@ -628,10 +630,9 @@
                     let errorMessage = xhr.status + ': ' + xhr.statusText;
                     Swal.fire("Error!", `Something went wrong. Error: ${errorMessage}`, "error");
                 }
-            });
         });
-
-        return table;
+    });
+    return table;
     });
 
     document.addEventListener("DOMContentLoaded", function() {
@@ -641,13 +642,13 @@
 
         typeSelect.addEventListener("change", function() {
             const selectedType          = this.value;
-                  breedSelect.innerHTML = '<option value="">Select Breed</option>';
+                breedSelect.innerHTML = '<option value="">Select Breed</option>';
 
             if (breedsData[selectedType]) {
                 breedsData[selectedType].forEach(function(breed) {
                     const option             = document.createElement("option");
-                          option.value       = breed.breed;
-                          option.textContent = breed.breed;
+                        option.value       = breed.breed;
+                         option.textContent = breed.breed;
                     breedSelect.appendChild(option);
                 });
             }

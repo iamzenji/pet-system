@@ -19,4 +19,9 @@ class Adoption extends Model
         'experience',
         'status',
     ];
+
+    public function pet()
+    {
+        return $this->belongsTo(Pet::class, 'pet_id');
+    }
 }

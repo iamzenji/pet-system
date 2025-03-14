@@ -4,18 +4,20 @@
     {{-- DISPLAY DATA --}}
     <div class="container">
         <h1>Registered Accounts</h1>
-        <table id="accounts-table" class="table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Registered At</th>
-                    <th style="width: 150px;">Actions</th>
-                </tr>
-            </thead>
-        </table>
+        <div class="table-responsive" style="border: 1px solid #ddd; border-radius: 10px; padding: 10px; border-collapse: separate; border-spacing: 0;">
+            <table id="accounts-table" class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Registered At</th>
+                        <th style="width: 150px;">Actions</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
     </div>
 
     {{-- ADD MODAL ACCOUNT --}}

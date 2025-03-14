@@ -16,11 +16,23 @@ class PetController extends Controller
     }
 
     public function getPet(Request $request)
-    {
-        $query = Pet::query();
+{
+    $pets = Pet::all()->map(function ($pet) {
+        $pet->unique_id = strtoupper(
+            substr($pet->type, 0, 1) .
+            substr($pet->breed, 0, 1) .
+            substr($pet->gender, 0, 1) . "-" .
+            substr($pet->color, 0, 1) .
+            substr($pet->size, 0, 1) .
+            $pet->age . "-" .
+            $pet->id
+        );
+        return $pet;
+    });
 
-        return DataTables::make($query->get())->toJson();
-    }
+    return DataTables::of($pets)->toJson();
+}
+
       // ADD PET
     public function store(Request $request)
     {

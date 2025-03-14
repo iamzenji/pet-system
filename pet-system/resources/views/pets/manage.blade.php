@@ -4,17 +4,18 @@
 {{-- DISPLAY DATA --}}
 <div class="container">
     <h2>Manage Pet Types & Breeds</h2>
-
-    <table id="typeTable" class="table">
-        <thead>
-            <tr>
-                <th>Type</th>
-                <th>Breed</th>
-                <th style="width: 150px;">Actions</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+    <div class="table-responsive" style="border: 1px solid #ddd; border-radius: 10px; padding: 10px; border-collapse: separate; border-spacing: 0;">
+        <table id="typeTable" class="table">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Breed</th>
+                    <th style="width: 150px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
 </div>
 
 <!-- Add Type Modal -->

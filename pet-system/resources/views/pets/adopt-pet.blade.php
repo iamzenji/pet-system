@@ -2,27 +2,28 @@
 
 @section('content')
 <div class="container">
-    <h2 class="mb-4">Adoption Requests</h2>
+    <div class="table-responsive" style="border: 1px solid #ddd; border-radius: 10px; padding: 10px; border-collapse: separate; border-spacing: 0;">
+        <h2 class="mb-4">Adoption Requests</h2>
 
-    <table id="adoptPetTable" class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Pet ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Contact</th>
-                <th>Address</th>
-                <th>Reason</th>
-                <th>Experience</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-    </table>
+        <table id="adoptPetTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Pet ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Address</th>
+                    <th>Reason</th>
+                    <th>Experience</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
 </div>
 
-<!-- View Adoption Modal -->
+<!-- VIEW ADOPT MODAL -->
 <div class="modal fade" id="viewAdoptionModal" tabindex="-1" aria-labelledby="viewAdoptionModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -48,13 +49,14 @@
 @push('scripts')
 <script>
 $(document).ready(function () {
+    // DISPLAY DATA
     let table = $('#adoptPetTable').DataTable({
         processing: true,
         serverSide: true,
         ajax: "{{ route('adoptions.list') }}",
         dom: "<'row'<'col-md-6'B><'col-md-6'f>>" +
-             "<'row'<'col-md-12'tr>>" +
-             "<'row'<'col-md-5'i><'col-md-7'p>>",
+            "<'row'<'col-md-12'tr>>" +
+            "<'row'<'col-md-5'i><'col-md-7'p>>",
         lengthMenu: [[10, 25, 50, -1], ['10 rows', '25 rows', '50 rows', 'Show all']],
         buttons: [
             { extend: 'copy', className: 'btn btn-secondary', text: '<i class="fa fa-copy"></i> Copy' },
@@ -64,8 +66,7 @@ $(document).ready(function () {
             { extend: 'print', className: 'btn btn-secondary', text: '<i class="fa fa-print"></i> Print' }
         ],
         columns: [
-            { data: 'id', name: 'id' },
-            { data: 'pet_id', name: 'pet_id' },
+            { data: 'pet_details', name: 'pet_details', title: 'Pet #' },
             { data: 'name', name: 'name' },
             { data: 'email', name: 'email' },
             { data: 'contact', name: 'contact' },

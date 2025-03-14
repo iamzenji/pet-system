@@ -6,62 +6,69 @@
 
     {{-- Filter --}}
     <div class="d-flex justify-content-center gap-2 mb-4">
-        <button class="btn btn-success active filter-btn" data-filter="all">All</button>
-        <button class="btn btn-outline-success filter-btn" data-filter="dog">Dog</button>
-        <button class="btn btn-outline-success filter-btn" data-filter="cat">Cat</button>
+        <button class="btn btn-primary active filter-btn rounded-pill px-4" data-filter="all">All</button>
+        <button class="btn btn-outline-secondary filter-btn rounded-pill px-4" data-filter="dog">Dogs</button>
+        <button class="btn btn-outline-secondary filter-btn rounded-pill px-4" data-filter="cat">Cats</button>
     </div>
 
     {{-- Pet List --}}
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
-    @foreach($pets as $pet)
-    @if($pet->adoption_status === 'Available')
-    <div class="col pet-card" data-category="{{ strtolower($pet->type) }}">
-        <div class="card shadow-sm h-100 d-flex flex-column border-0 rounded-4 overflow-hidden">
-            <div class="position-relative overflow-hidden">
-                <img src="{{ $pet->image ? asset('storage/' . $pet->image) : asset('images/default-pet.jpg') }}"
-                    class="card-img-top img-fluid w-100 rounded-top"
-                    style="height: 230px; object-fit: cover; transition: transform 0.3s ease-in-out;"
-                    alt="Pet Image">
-                <div class="position-absolute top-0 start-0 bg-success text-white px-3 py-1 rounded-bottom">
-                    Available
-                </div>
-            </div>
-            <div class="card-body d-flex flex-column p-3">
-                <h5 class="card-title text-primary fw-bold mb-2">🐾 Pet #{{ $pet->id }} - {{ $pet->type }}</h5>
-                <h6 class="text-secondary fw-semibold mb-2">{{ $pet->breed }}</h6>
-                <p class="card-text text-muted small flex-grow-1">
-                    <strong>Gender:</strong> {{ ucfirst($pet->gender) }}<br>
-                    <strong>Color:</strong> {{ ucfirst($pet->color) }}<br>
-                    <strong>Size:</strong> {{ ucfirst($pet->size) }}<br>
-                    <strong>Age:</strong> {{ $pet->age }} years<br>
-                </p>
-                <button class="btn btn-success w-100 fw-bold mt-auto rounded-pill adopt-btn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#adoptModal"
-                    data-id="{{ $pet->id }}"
-                    data-type="{{ $pet->type }}"
-                    data-breed="{{ $pet->breed }}"
-                    data-gender="{{ ucfirst($pet->gender) }}"
-                    data-color="{{ ucfirst($pet->color) }}"
-                    data-size="{{ ucfirst($pet->size) }}"
-                    data-age="{{ $pet->age }}"
-                    data-weight="{{ $pet->weight }}"
-                    data-image="{{ $pet->image ? asset('storage/' . $pet->image) : asset('images/default-pet.jpg') }}"
-                    data-temperament="{{ $pet->temperament }}"
-                    data-health_status="{{ $pet->health_status }}"
-                    data-spayed_neutered="{{ $pet->spayed_neutered }}"
-                    data-vaccination_status="{{ $pet->vaccination_status }}"
-                    data-good_with="{{ $pet->good_with }}"
-                    data-adoption_status="{{ $pet->adoption_status }}">
-                    🐶 Adopt Now
-                </button>
-            </div>
-        </div>
-    </div>
-    @endif
-    @endforeach
-</div>
+        @foreach($pets as $pet)
+            @if($pet->adoption_status === 'Available')
+                <div class="col pet-card" data-category="{{ strtolower($pet->type) }}">
+                    <div class="card shadow-sm h-100 d-flex flex-column border-0 rounded-4 overflow-hidden">
+                        {{-- Image Section --}}
+                        <div class="position-relative">
+                            <img src="{{ $pet->image ? asset('storage/' . $pet->image) : asset('images/default-pet.jpg') }}"
+                                class="card-img-top img-fluid w-100 rounded-top"
+                                style="height: 230px; object-fit: cover;">
+                            <span class="position-absolute top-0 start-0 bg-success text-white px-3 py-1 rounded-bottom small">
+                                Available
+                            </span>
+                        </div>
 
+                        {{-- Card Body --}}
+                        <div class="card-body d-flex flex-column p-3">
+                            <h6 class="text-success fw-bold mb-1">
+                                {{ strtoupper(substr($pet->type, 0, 1)) }}{{ strtoupper(substr($pet->breed, 0, 1)) }}{{ strtoupper(substr($pet->gender, 0, 1)) }}-{{ strtoupper(substr($pet->color, 0, 1)) }}{{ strtoupper(substr($pet->size, 0, 1)) }}{{ $pet->age }}-{{ $pet->id }}
+                            </h6>
+                            <h6 class="text-secondary fw-semibold mb-2">{{ ucfirst($pet->type) }} - {{ $pet->breed }}</h6>
+
+                            {{-- Pet Details --}}
+                            <ul class="list-unstyled text-muted small flex-grow-1">
+                                <li><strong>Gender:</strong> {{ ucfirst($pet->gender) }}</li>
+                                <li><strong>Color:</strong> {{ ucfirst($pet->color) }}</li>
+                                <li><strong>Size:</strong> {{ ucfirst($pet->size) }}</li>
+                                <li><strong>Age:</strong> {{ $pet->age }} years</li>
+                            </ul>
+
+                            {{-- Adopt Button --}}
+                            <button class="btn btn-success w-100 fw-bold mt-auto rounded-pill adopt-btn"
+                                data-bs-toggle="modal"
+                                data-bs-target="#adoptModal"
+                                data-id="{{ $pet->id }}"
+                                data-type="{{ $pet->type }}"
+                                data-breed="{{ $pet->breed }}"
+                                data-gender="{{ ucfirst($pet->gender) }}"
+                                data-color="{{ ucfirst($pet->color) }}"
+                                data-size="{{ ucfirst($pet->size) }}"
+                                data-age="{{ $pet->age }}"
+                                data-weight="{{ $pet->weight }}"
+                                data-image="{{ $pet->image ? asset('storage/' . $pet->image) : asset('images/default-pet.jpg') }}"
+                                data-temperament="{{ $pet->temperament }}"
+                                data-health_status="{{ $pet->health_status }}"
+                                data-spayed_neutered="{{ $pet->spayed_neutered }}"
+                                data-vaccination_status="{{ $pet->vaccination_status }}"
+                                data-good_with="{{ $pet->good_with }}"
+                                data-adoption_status="{{ $pet->adoption_status }}">
+                                🐶 Adopt Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        @endforeach
+    </div>
 </div>
 
     {{-- ADOPT PET INFO MODAL --}}
@@ -211,8 +218,6 @@
         });
     });
 });
-
-
     // FILTER
     document.addEventListener("DOMContentLoaded", function () {
         const filterButtons = document.querySelectorAll(".filter-btn");
@@ -275,25 +280,44 @@
             data: formData,
             dataType: "json",
             success: function (response) {
-                alert(response.message);
-                $("#adoptionForm")[0].reset();
-                $("#adoptionFormModal").modal("hide");
+                Swal.fire({
+                    title: "Success!",
+                    text: response.message,
+                    icon: "success",
+                    confirmButtonText: "OK"
+                }).then(() => {
+                    $("#adoptionForm")[0].reset();
+                    $("#adoptionFormModal").modal("hide");
+                });
             },
             error: function (xhr) {
                 if (xhr.status === 422) {
                     let errors = xhr.responseJSON.errors;
-                    let errorMsg = "Please correct the following errors:\n";
+                    let errorMsg = "<ul>";
                     $.each(errors, function (key, value) {
-                        errorMsg += value[0] + "\n";
+                        errorMsg += "<li>" + value[0] + "</li>";
                     });
-                    alert(errorMsg);
+                    errorMsg += "</ul>";
+
+                    Swal.fire({
+                        title: "Validation Error!",
+                        html: errorMsg,
+                        icon: "error",
+                        confirmButtonText: "OK"
+                    });
                 } else {
-                    alert("Something went wrong. Please try again.");
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Something went wrong. Please try again.",
+                        icon: "error",
+                        confirmButtonText: "OK"
+                    });
                 }
             }
         });
     });
 });
+
 
 
 

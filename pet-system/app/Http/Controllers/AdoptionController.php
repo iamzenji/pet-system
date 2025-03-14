@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Adoption; // Assuming you have an Adoption model
+use App\Models\Adoption;
 use App\Models\Pet;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -50,48 +50,56 @@ class AdoptionController extends Controller
         return view('pets.adopt-pet');
     }
 
-    public function list(Request $request)
-    {
-        if ($request->ajax()) {
-            $data = Adoption::select(['id', 'pet_id', 'name', 'email', 'contact', 'address', 'reason', 'experience', 'status']);
+    // LIST OF REQUEST
+    public function list()
+{
+    $adoptions = Adoption::with('pet')->select('adoptions.*');
 
-            return DataTables::of($data)
-                ->addColumn('actions', function ($row) {
-                    return '<button class="btn btn-info btn-sm view-btn"
-                                data-name="' . e($row->name) . '"
-                                data-email="' . e($row->email) . '"
-                                data-contact="' . e($row->contact) . '"
-                                data-address="' . e($row->address) . '"
-                                data-reason="' . e($row->reason) . '"
-                                data-experience="' . e($row->experience) . '"
-                                data-status="' . e($row->status) . '">
-                                <i class="fa fa-eye"></i> View
-                            </button>
-                            <button class="btn btn-danger btn-sm delete-btn" data-id="' . $row->id . '">
-                                <i class="fa fa-trash"></i> Delete
-                            </button>';
-                })
-                ->rawColumns(['actions'])
-                ->make(true);
-        }
+    return DataTables::of($adoptions)
+        ->addColumn('pet_details', function ($adoption) {
+            if ($adoption->pet) {
+                $pet = $adoption->pet;
 
-        return response()->json(['error' => 'Unauthorized'], 403);
-    }
+                $unique_id = strtoupper(
+                    substr($pet->type, 0, 1) .
+                    substr($pet->breed, 0, 1) .
+                    substr($pet->gender, 0, 1) .
+                    "-" .
+                    substr($pet->color, 0, 1) .
+                    substr($pet->size, 0, 1) .
+                    $pet->age .
+                    "-" .
+                    $pet->id
+                );
 
+                return "{$pet->name} {$unique_id}";
+            }
+            return 'No Pet Assigned';
+        })
+        ->addColumn('actions', function ($adoption) {
+            return '<button class="btn btn-sm btn-danger delete-btn" data-id="' . $adoption->id . '">Delete</button>';
+        })
+        ->rawColumns(['actions'])
+        ->make(true);
+}
+
+    // DELETE
     public function destroy($id)
     {
         Adoption::findOrFail($id)->delete();
         return response()->json(['message' => 'Adoption request deleted']);
     }
 
-public function updateStatus(Request $request, $id)
-{
-    $adoption = Adoption::findOrFail($id);
-    $adoption->status = $request->status;
-    $adoption->save();
+    // UPDATE STATUS
+    public function updateStatus(Request $request, $id)
+    {
+        $adoption = Adoption::findOrFail($id);
+        $adoption->status = $request->status;
+        $adoption->save();
 
-    return response()->json(['success' => 'Status updated successfully.']);
-}
+        return response()->json(['success' => 'Status updated successfully.']);
+    }
+
 
 
 }
