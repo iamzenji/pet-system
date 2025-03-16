@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TypeController;
@@ -37,6 +38,17 @@ Route::group(['middleware' => ['auth', 'role:superadministrator|administrator']]
     Route::get('/roles', [UserController::class, 'getRoles']);
     Route::post('/assign-role', [UserController::class, 'createRoles'])->name('assign.role');
     Route::post('/accounts/register', [UserController::class, 'store'])->name('accounts.register');
+
+    // ROLES MANAGEMENT
+    Route::get('/role-management', [UserController::class, 'roles'])->name('roles.display');
+    Route::prefix('roles')->name('roles.')->group(function () {
+    Route::get('/role-manage', [RoleController::class, 'index'])->name('index');
+    Route::get('/data', [RoleController::class, 'fetchRoles'])->name('data');
+    Route::post('/role-data', [RoleController::class, 'store'])->name('store');
+    Route::put('/{id}', [RoleController::class, 'update'])->name('update');
+    Route::delete('/{id}', [RoleController::class, 'destroy'])->name('delete');
+    });
+
 });
 
 // USER AND READER
@@ -70,6 +82,17 @@ Route::group(['middleware' => ['auth', 'role:superadministrator|administrator|us
     Route::get('/adoptions/list', [AdoptionController::class, 'list'])->name('adoptions.list');
     Route::delete('/adoptions/{id}', [AdoptionController::class, 'destroy'])->name('adoptions.destroy');
     Route::patch('/adoptions/{id}/status', [AdoptionController::class, 'updateStatus']);
+
+    // FILTER
+    Route::get('/filter', [PetController::class, 'filter'])->name('filter.display');
+    Route::get('/pet-types/data', [PetController::class, 'getTypes'])->name('pet.types.data');
+    Route::post('/pet-types/store', [PetController::class, 'store_pets'])->name('pet.types.store');
+    Route::delete('/pet-types/delete/{id}', [PetController::class, 'destroy_types'])->name('pet.types.delete');
+    Route::get('/pet-types/{id}/edit', [PetController::class, 'edit_types'])->name('pet.types.edit');
+    Route::put('/pet-types/update/{id}', [PetController::class, 'update_types'])->name('pet.types.update');
+
+
+
 
 
 });

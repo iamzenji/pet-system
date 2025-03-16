@@ -44,17 +44,16 @@ class TypeController extends Controller
         return response()->json(['success' => 'Type updated successfully!']);
     }
 
-      // Fetch distinct types (e.g., Dog, Cat, etc.)
     public function fetchTypes()
     {
-        $types = Type::distinct()->get(['type']);  // Fetch distinct types (no duplicates)
-        return response()->json($types);           // Return as JSON response
+        $types = Type::distinct()->get(['type']);
+        return response()->json($types);
     }
 
       // Fetch breeds based on selected type
     public function fetchBreeds(Request $request)
     {
-        $breeds = Type::where('type', $request->type)->pluck('breed');  // Get all breeds related to the selected type
-        return  response()->json($breeds);                              // Return breeds as JSON response
+        $breeds = Type::where('type', $request->type)->pluck('breed');
+        return  response()->json($breeds);
     }
 }

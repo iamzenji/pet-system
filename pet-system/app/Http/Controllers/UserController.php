@@ -101,5 +101,11 @@ class UserController extends Controller
         return response()->json(['success' => 'User registered successfully!']);
     }
 
+    // ROLE
+    public function roles()
+    {
+        return view('pets.role');
+    }
+
 
 }

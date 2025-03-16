@@ -16,7 +16,7 @@
                     <th>Reason</th>
                     <th>Experience</th>
                     <th>Status</th>
-                    <th>Actions</th>
+                    <th >Actions</th>
                 </tr>
             </thead>
         </table>
@@ -59,11 +59,11 @@ $(document).ready(function () {
             "<'row'<'col-md-5'i><'col-md-7'p>>",
         lengthMenu: [[10, 25, 50, -1], ['10 rows', '25 rows', '50 rows', 'Show all']],
         buttons: [
-            { extend: 'copy', className: 'btn btn-secondary', text: '<i class="fa fa-copy"></i> Copy' },
-            { extend: 'excel', className: 'btn btn-secondary', text: '<i class="fa fa-file-excel"></i> Excel' },
-            { extend: 'csv', className: 'btn btn-secondary', text: '<i class="fa fa-file-csv"></i> CSV' },
-            { extend: 'pdf', className: 'btn btn-secondary', text: '<i class="fa fa-file-pdf"></i> PDF' },
-            { extend: 'print', className: 'btn btn-secondary', text: '<i class="fa fa-print"></i> Print' }
+            { extend: 'copy', className: 'btn btn-success', text: '<i class="fa fa-copy"></i> Copy' },
+            { extend: 'excel', className: 'btn btn-success', text: '<i class="fa fa-file-excel"></i> Excel' },
+            { extend: 'csv', className: 'btn btn-success', text: '<i class="fa fa-file-csv"></i> CSV' },
+            { extend: 'pdf', className: 'btn btn-success', text: '<i class="fa fa-file-pdf"></i> PDF' },
+            { extend: 'print', className: 'btn btn-success', text: '<i class="fa fa-print"></i> Print' }
         ],
         columns: [
             { data: 'pet_details', name: 'pet_details', title: 'Pet #' },
@@ -81,7 +81,18 @@ $(document).ready(function () {
                         <option value="Rejected" ${data === 'Rejected' ? 'selected' : ''}>Rejected</option>
                     </select>`;
             }},
-            { data: 'actions', name: 'actions', orderable: false, searchable: false }
+            {
+                data: null,
+                name: 'actions',
+                orderable: false,
+                searchable: false,
+                render: function (data, type, row) {
+                    return `
+                        <button class="btn btn-danger btn-sm delete-btn" data-id="${row.id}">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>`;
+                }
+            }
         ]
     });
 

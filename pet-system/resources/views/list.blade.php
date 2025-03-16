@@ -2,21 +2,29 @@
 
 @section('content')
 <div class="container">
-    <h1 class="text-center my-4 fw-bold text-primary">🐾 Available Pets for Adoption 🐾</h1>
+    <h1 class="text-center my-4 fw-bold text-success">Available Pets for Adoption</h1>
 
-    {{-- Filter --}}
+    {{-- FILTER --}}
     <div class="d-flex justify-content-center gap-2 mb-4">
-        <button class="btn btn-primary active filter-btn rounded-pill px-4" data-filter="all">All</button>
-        <button class="btn btn-outline-secondary filter-btn rounded-pill px-4" data-filter="dog">Dogs</button>
-        <button class="btn btn-outline-secondary filter-btn rounded-pill px-4" data-filter="cat">Cats</button>
+        <button class="btn btn-success active filter-btn rounded-pill px-4" data-filter="all">All</button>
+
+        @php
+            $petTypes = \App\Models\Types::all(); // Fetch pet types directly in the view
+        @endphp
+
+        @foreach($petTypes as $type)
+            <button class="btn btn-outline-success filter-btn rounded-pill px-4" data-filter="{{ strtolower($type->name) }}">
+                {{ ucfirst($type->name) }}
+            </button>
+        @endforeach
     </div>
 
-    {{-- Pet List --}}
+    {{-- PET LIST CARD --}}
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
         @foreach($pets as $pet)
             @if($pet->adoption_status === 'Available')
                 <div class="col pet-card" data-category="{{ strtolower($pet->type) }}">
-                    <div class="card shadow-sm h-100 d-flex flex-column border-0 rounded-4 overflow-hidden">
+                    <div class="card shadow h-100 d-flex flex-column border-0  overflow-hidden">
                         {{-- Image Section --}}
                         <div class="position-relative">
                             <img src="{{ $pet->image ? asset('storage/' . $pet->image) : asset('images/default-pet.jpg') }}"
@@ -35,12 +43,53 @@
                             <h6 class="text-secondary fw-semibold mb-2">{{ ucfirst($pet->type) }} - {{ $pet->breed }}</h6>
 
                             {{-- Pet Details --}}
+                            @php
+                                $colorMap = [
+                                    'golden retriever' => 'goldenrod',
+                                    'black' => 'black',
+                                    'white' => 'white',
+                                    'brown' => 'saddlebrown',
+                                    'gray' => 'gray',
+                                    'golden' => 'gold',
+                                    'red' => 'red',
+                                    'cream brown' => 'saddlebrown'
+                                ];
+                                $petColor = strtolower($pet->color);
+                                $backgroundColor = $colorMap[$petColor] ?? 'gray';
+
+                                $textColor = (in_array($backgroundColor, ['white', 'gold', 'goldenrod'])) ? 'black' : 'white';
+
+                                $textShadow = ($textColor === 'black') ? 'text-shadow: 1px 1px 2px rgba(0,0,0,0.5);' : '';
+
+                                $boxShadow = 'box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);';
+
+                                $gender = strtolower($pet->gender);
+                                $genderIcon = $gender === 'male' ? 'bi-gender-male' : 'bi-gender-female';
+                                $genderColor = $gender === 'male' ? 'text-primary' : '';
+                                $genderStyle = $gender === 'female' ? 'color: pink;' : '';
+                            @endphp
+
                             <ul class="list-unstyled text-muted small flex-grow-1">
-                                <li><strong>Gender:</strong> {{ ucfirst($pet->gender) }}</li>
-                                <li><strong>Color:</strong> {{ ucfirst($pet->color) }}</li>
+                                <li>
+                                    <strong>Gender:</strong>
+                                    {{ ucfirst($pet->gender) }}
+                                    <i class="bi {{ $genderIcon }} {{ $genderColor }}" style="{{ $genderStyle }}"></i>
+                                </li>
+                                <li>
+                                    <strong>Color:</strong>
+                                    <small class="d-inline px-3 py-1 rounded-4"
+                                        style="background-color: {{ $backgroundColor }};
+                                            color: {{ $textColor }};
+                                            {{ $textShadow }}
+                                            {{ $boxShadow }}">
+                                        {{ ucfirst($pet->color) }}
+                                    </small>
+                                </li>
                                 <li><strong>Size:</strong> {{ ucfirst($pet->size) }}</li>
                                 <li><strong>Age:</strong> {{ $pet->age }} years</li>
                             </ul>
+
+
 
                             {{-- Adopt Button --}}
                             <button class="btn btn-success w-100 fw-bold mt-auto rounded-pill adopt-btn"

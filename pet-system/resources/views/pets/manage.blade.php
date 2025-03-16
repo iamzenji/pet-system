@@ -31,7 +31,9 @@
                     @csrf
                     <div class="mb-3">
                         <label for="type" class="form-label">Type</label>
-                        <input type="text" id="type" name="type" class="form-control" required>
+                        <select id="type" name="type" class="form-control" required>
+                            <option value="">Select Type</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="breed" class="form-label">Breed</label>
@@ -58,7 +60,9 @@
                     <input type="hidden" id="edit_id" name="id">
                     <div class="mb-3">
                         <label for="edit_type" class="form-label">Type</label>
-                        <input type="text" id="edit_type" name="type" class="form-control" required>
+                        <select id="edit_type" name="type" class="form-control" required>
+                            <option value="">Select Type</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="edit_breed" class="form-label">Breed</label>
@@ -72,4 +76,33 @@
 </div>
 
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/get-pet-types',
+            type: 'GET',
+            success: function (response) {
+                let select = $('#type');
+                response.forEach(function (item) {
+                    select.append(`<option value="${item.name}">${item.name}</option>`);
+                });
+            }
+        });
+
+        $.ajax({
+            url: '/get-pet-types',
+            type: 'GET',
+            success: function (response) {
+                let select = $('#edit_type');
+                response.forEach(function (item) {
+                    select.append(`<option value="${item.name}">${item.name}</option>`);
+                });
+            }
+        });
+    });
+
+</script>
+@endpush
 

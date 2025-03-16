@@ -115,7 +115,7 @@
             buttons: [
                 {
                     text: '<i class="bi bi-plus-lg"></i> Add',
-                    className: 'btn btn-secondary',
+                    className: 'btn btn-success',
                     action: function (e, dt, node, config) {
                         $('#addAccountModal').modal('show');
                     }
@@ -123,27 +123,27 @@
                 {
                     extend: 'copy',
                     text: '<i class="bi bi-clipboard"></i> Copy',
-                    className: 'btn btn-secondary'
+                    className: 'btn btn-success'
                 },
                 {
                     extend: 'excel',
                     text: '<i class="bi bi-file-earmark-excel"></i> Excel',
-                    className: 'btn btn-secondary'
+                    className: 'btn btn-success'
                 },
                 {
                     extend: 'csv',
                     text: '<i class="bi bi-file-earmark-text"></i> CSV',
-                    className: 'btn btn-secondary'
+                    className: 'btn btn-success'
                 },
                 {
                     extend: 'pdf',
                     text: '<i class="bi bi-file-earmark-pdf"></i> PDF',
-                    className: 'btn btn-secondary'
+                    className: 'btn btn-success'
                 },
                 {
                     extend: 'print',
                     text: '<i class="bi bi-printer"></i> Print',
-                    className: 'btn btn-secondary'
+                    className: 'btn btn-success'
                 }
             ],
             columns: [
@@ -165,12 +165,12 @@
                                     data-role="${row.role}"
                                     data-bs-toggle="modal"
                                     data-bs-target="#editUserModal">
-                                Edit
+                                    <i class="fas fa-pencil-alt"></i>
                             </button>
 
                             <button class="btn btn-danger btn-sm delete-user"
                                     data-id="${row.id}">
-                                Delete
+                                <i class="bi bi-trash"></i>
                             </button>
                         `;
                     }
@@ -294,7 +294,6 @@
                 }
             });
         });
-        
 
         function loadAccounts() {
             $.ajax({
@@ -305,7 +304,6 @@
                 }
             });
         }
-        
     });
 </script>
 @endpush

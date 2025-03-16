@@ -343,11 +343,11 @@
     $(document).ready(function () {
         var   domSetup      = "<'row'<'col-sm-12 col-md-8'B><'col-sm-12 col-md-4'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>";
         const A_LENGTH_MENU = [[10, 25, 50, 100, -1], ['10 rows', '25 rows', '50 rows', '100 rows', 'Show all']];
-        const TABLE_BUTTONS = [{ extend: 'colvis', className: 'btn-datatable', text: '<i class="fas fa-columns"></i> Column Visibility' },{ extend: 'pageLength', className: 'btn-datatable' }];
+        const TABLE_BUTTONS = [{ extend: 'colvis', className: 'btn btn-success', text: '<i class="fas fa-columns"></i> Column Visibility' }, { extend: 'pageLength', className: 'btn btn-success' }];
         var specific_table =  [
                         {
                             text     : '<i class="bi bi-plus-lg"></i> Add',
-                            className: 'btn btn-secondary',
+                            className: 'btn btn-success',
                             action   : function () {
                                 $('#addPetModal').modal('show');
                             }
@@ -355,27 +355,27 @@
                         {
                             extend   : 'copy',
                             text     : '<i class="bi bi-clipboard"></i> Copy',
-                            className: 'btn btn-secondary'
+                            className: 'btn btn-success'
                         },
                         {
                             extend   : 'excel',
                             text     : '<i class="bi bi-file-earmark-excel"></i> Excel',
-                            className: 'btn btn-secondary'
+                            className: 'btn btn-success'
                         },
                         {
                             extend   : 'csv',
                             text     : '<i class="bi bi-file-earmark-text"></i> CSV',
-                            className: 'btn btn-secondary'
+                            className: 'btn btn-success'
                         },
                         {
                             extend   : 'pdf',
                             text     : '<i class="bi bi-file-earmark-pdf"></i> PDF',
-                            className: 'btn btn-secondary'
+                            className: 'btn btn-success'
                         },
                         {
                             extend   : 'print',
                             text     : '<i class="bi bi-printer"></i> Print',
-                            className: 'btn btn-secondary'
+                            className: 'btn btn-success'
                         }
                     ];
         var BUTTONS = $.merge(specific_table,TABLE_BUTTONS);
@@ -443,14 +443,14 @@
                                             data-image              = "${row.image}"
                                             data-bs-toggle          = "modal"
                                             data-bs-target          = "#editModal">
-                                    <i      class                   = "bi bi-pencil"></i> Edit
+                                    <i      class                   = "bi bi-pencil"></i>
                                         </button>
 
                                         <button class          = "btn btn-danger btn-sm delete-btn"
                                                 data-id        = "${row.id}"
                                                 data-bs-toggle = "modal"
                                                 data-bs-target = "#deleteModal">
-                                        <i      class          = "bi bi-trash"></i> Delete
+                                        <i      class          = "bi bi-trash"></i>
                                         </button>
                                     </div>
                                 `;

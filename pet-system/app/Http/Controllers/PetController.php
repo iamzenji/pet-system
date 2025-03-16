@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pet;
+use App\Models\Types;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -149,6 +150,53 @@ class PetController extends Controller
             ], 500);
         }
     }
+
+    public function filter()
+    {
+        return view('pets.filter');
+    }
+
+    public function getTypes(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Types::select('id', 'name');
+            return DataTables::of($data)
+                ->addColumn('actions', function ($row) {
+                    return '<button class="btn btn-warning btn-sm edit" data-id="'.$row->id.'">Edit</button>
+                            <button class="btn btn-danger btn-sm delete" data-id="'.$row->id.'">Delete</button>';
+                })
+                ->rawColumns(['actions'])
+                ->make(true);
+        }
+    }
+
+    public function store_pets(Request $request)
+    {
+        $request->validate(['name' => 'required|unique:pet_types,name']);
+        Types::create(['name' => $request->name]);
+        return response()->json(['success' => 'Pet type added successfully']);
+    }
+    public function edit_types($id)
+    {
+        $petType = Types::findOrFail($id);
+        return response()->json($petType);
+    }
+
+    public function update_types(Request $request, $id)
+    {
+        $request->validate(['name' => 'required|unique:pet_types,name,'.$id]);
+
+        $petType = Types::findOrFail($id);
+        $petType->update(['name' => $request->name]);
+
+        return response()->json(['success' => 'Pet type updated successfully']);
+    }
+    public function destroy_types($id)
+    {
+        Types::findOrFail($id)->delete();
+        return response()->json(['success' => 'Pet type deleted successfully']);
+    }
+
 
 
 }
