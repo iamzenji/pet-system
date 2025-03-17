@@ -43,6 +43,7 @@ class AdoptionController extends Controller
     }
 
 
+
     // USER SYSTEM VIEW
 
     public function index()
@@ -100,6 +101,48 @@ class AdoptionController extends Controller
         return response()->json(['success' => 'Status updated successfully.']);
     }
 
+    // UPDATE DATE
+    public function updateAdoptedDate(Request $request, $id)
+    {
+        $request->validate([
+            'adopted_date' => 'required|date',
+        ]);
 
+        $adoption = Adoption::findOrFail($id);
+        $adoption->adopted_date = $request->adopted_date;
+        $adoption->save();
+
+        return response()->json(['message' => 'Adopted date updated successfully!']);
+    }
+
+
+
+    // REALTIME BAR GRAPH
+    public function getAdoptionChartData($year = null)
+    {
+        $year = $year ?? date('Y');
+
+        $adoptionData = Adoption::selectRaw('MONTH(adopted_date) as month, COUNT(*) as total')
+            ->whereYear('adopted_date', $year)
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        $months = [
+            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+        ];
+
+        $adoptionCounts = array_fill(0, 12, 0);
+
+        foreach ($adoptionData as $data) {
+            $adoptionCounts[$data->month - 1] = $data->total;
+        }
+
+        return response()->json([
+            'months' => $months,
+            'adoptions' => $adoptionCounts
+        ]);
+    }
 
 }

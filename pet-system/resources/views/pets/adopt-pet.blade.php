@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+
     {{-- Breadcrumb Navigation --}}
     <div class="row align-items-center mb-3">
         <div class="col-md-6">
@@ -28,33 +29,12 @@
                     <th>Address</th>
                     <th>Reason</th>
                     <th>Experience</th>
-                    <th>Status</th>
+                    <th style="width: 120px" >Status</th>
+                    <th style="width: 120px" >Adopted Date</th>
                     <th>Actions</th>
                 </tr>
             </thead>
         </table>
-    </div>
-</div>
-
-
-<!-- VIEW ADOPT MODAL -->
-<div class="modal fade" id="viewAdoptionModal" tabindex="-1" aria-labelledby="viewAdoptionModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="viewAdoptionModalLabel">Adoption Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p><strong>Name:</strong> <span id="modalName"></span></p>
-                <p><strong>Email:</strong> <span id="modalEmail"></span></p>
-                <p><strong>Contact:</strong> <span id="modalContact"></span></p>
-                <p><strong>Address:</strong> <span id="modalAddress"></span></p>
-                <p><strong>Reason:</strong> <span id="modalReason"></span></p>
-                <p><strong>Experience:</strong> <span id="modalExperience"></span></p>
-                <p><strong>Status:</strong> <span id="modalStatus"></span></p>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -68,11 +48,13 @@ $(document).ready(function () {
         processing: true,
         serverSide: true,
         ajax: "{{ route('adoptions.list') }}",
-        dom: "<'row'<'col-md-6'B><'col-md-6'f>>" +
-            "<'row'<'col-md-12'tr>>" +
-            "<'row'<'col-md-5'i><'col-md-7'p>>",
-        lengthMenu: [[10, 25, 50, -1], ['10 rows', '25 rows', '50 rows', 'Show all']],
+        dom: "<'row'<'col-sm-12 col-md-8'B><'col-sm-12 col-md-4'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+        lengthMenu: [[10, 25, 50, 100, -1], ['10 rows', '25 rows', '50 rows', '100 rows', 'Show all']],
         buttons: [
+            { extend: 'colvis', className: 'btn btn-success', text: '<i class="fas fa-columns"></i> Column Visibility' },
+            { extend: 'pageLength', className: 'btn btn-success' },
             { extend: 'copy', className: 'btn btn-success', text: '<i class="fa fa-copy"></i> Copy' },
             { extend: 'excel', className: 'btn btn-success', text: '<i class="fa fa-file-excel"></i> Excel' },
             { extend: 'csv', className: 'btn btn-success', text: '<i class="fa fa-file-csv"></i> CSV' },
@@ -94,6 +76,9 @@ $(document).ready(function () {
                         <option value="Approved" ${data === 'Approved' ? 'selected' : ''}>Approved</option>
                         <option value="Rejected" ${data === 'Rejected' ? 'selected' : ''}>Rejected</option>
                     </select>`;
+            }},
+            { data: 'adopted_date', name: 'adopted_date', render: function (data, type, row) {
+                return `<input type="date" class="form-control update-date" data-id="${row.id}" value="${data || ''}">`;
             }},
             {
                 data: null,
@@ -129,17 +114,23 @@ $(document).ready(function () {
         });
     });
 
-    // View details in modal
-    $(document).on('click', '.view-btn', function () {
-        let data = $(this).data();
-        $('#modalName').text(data.name);
-        $('#modalEmail').text(data.email);
-        $('#modalContact').text(data.contact);
-        $('#modalAddress').text(data.address);
-        $('#modalReason').text(data.reason);
-        $('#modalExperience').text(data.experience);
-        $('#modalStatus').text(data.status);
-        $('#viewAdoptionModal').modal('show');
+    // Handle adopted date update
+    $(document).on('change', '.update-date', function () {
+        let id = $(this).data('id');
+        let adoptedDate = $(this).val();
+
+        $.ajax({
+            url: `/adoptions/${id}/adopted-date`,
+            type: 'PATCH',
+            data: { adopted_date: adoptedDate, _token: "{{ csrf_token() }}" },
+            success: function (response) {
+                Swal.fire("Success!", "Adopted date updated successfully.", "success");
+                table.ajax.reload();
+            },
+            error: function () {
+                Swal.fire("Error!", "Failed to update adopted date.", "error");
+            }
+        });
     });
 
     // Delete adoption request
@@ -168,6 +159,6 @@ $(document).ready(function () {
         });
     });
 });
-</script>
 
+</script>
 @endpush

@@ -83,6 +83,14 @@ Route::group(['middleware' => ['auth', 'role:superadministrator|administrator|us
     Route::delete('/adoptions/{id}', [AdoptionController::class, 'destroy'])->name('adoptions.destroy');
     Route::patch('/adoptions/{id}/status', [AdoptionController::class, 'updateStatus']);
 
+    // ADOPTED DATE
+    Route::patch('/adoptions/{id}/adopted-date', [AdoptionController::class, 'updateAdoptedDate'])->name('adoptions.updateAdoptedDate');
+
+    // BAR GRAPH
+    Route::get('/adoptions/chart-data', [AdoptionController::class, 'getAdoptionChartData'])->name('adoptions.chart-data');
+    Route::get('/adoptions/chart-data/{year?}', [AdoptionController::class, 'getAdoptionChartData'])->name('adoptions.chart-data');
+
+
     // FILTER
     Route::get('/filter', [PetController::class, 'filter'])->name('filter.display');
     Route::get('/pet-types/data', [PetController::class, 'getTypes'])->name('pet.types.data');

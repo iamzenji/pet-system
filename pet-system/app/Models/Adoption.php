@@ -18,6 +18,7 @@ class Adoption extends Model
         'reason',
         'experience',
         'status',
+        'adopted_date',
     ];
 
     public function pet()
