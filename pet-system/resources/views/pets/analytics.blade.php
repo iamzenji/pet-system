@@ -9,7 +9,20 @@
 @endphp
 
 <div class="container mt-5">
-    <h2 class="text-center">Analytics Dashboard</h2>
+    {{-- Breadcrumb Navigation --}}
+    <div class="row align-items-center mb-3">
+        <div class="col-md-6">
+            <h2 class="fw-bold text-success">Analytics Dashboard</h2>
+        </div>
+        <div class="col-md-6 text-md-end">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-md-end">
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-success">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Analytics Dashboard</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
 
     <div class="row mt-4">
         <div class="col-md-4">
@@ -42,6 +55,7 @@
         </div>
     </div>
 </div>
+
 @endsection
 
 @push('scripts')

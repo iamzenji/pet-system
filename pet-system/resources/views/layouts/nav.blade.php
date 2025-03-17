@@ -58,54 +58,22 @@
             <a class="dropdown-item" href="{{ route('roles.display') }}">
                 <i class="bi bi-person-plus"></i> Add Role
             </a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li>
+                    <a class="dropdown-item text-danger" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </li>
+            </ul>
         </li>
-        <li>
-            <hr class="dropdown-divider">
-        </li>
-        <li>
-            <a class="dropdown-item text-danger" href="{{ route('logout') }}"
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <i class="bi bi-box-arrow-right"></i> Logout
-            </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                @csrf
-            </form>
-        </li>
-    </ul>
-</li>
-
-                {{-- <!-- User Dropdown -->
-                <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-        {{ Auth::user()->name }} <!-- Display user name -->
-    </a>
-    <ul class="dropdown-menu dropdown-menu-end">
-        <li>
-            <a class="dropdown-item" href="{{ route('filter.add') }}">
-                <i class="bi bi-funnel"></i> Add Filter
-            </a>
-        </li>
-        <li>
-            <a class="dropdown-item" href="{{ route('role.add') }}">
-                <i class="bi bi-person-plus"></i> Add Role
-            </a>
-        </li>
-        <li>
-            <hr class="dropdown-divider">
-        </li>
-        <li>
-            <a class="dropdown-item text-danger" href="{{ route('logout') }}"
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <i class="bi bi-box-arrow-right"></i> Logout
-            </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                @csrf
-            </form>
-        </li>
-    </ul>
-</li> --}}
-
-                @endauth
+        @endauth
             </ul>
         </div>
     </div>

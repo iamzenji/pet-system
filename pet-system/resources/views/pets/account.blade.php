@@ -3,22 +3,37 @@
 @section('content')
     {{-- DISPLAY DATA --}}
     <div class="container">
-        <h1>Registered Accounts</h1>
-        <div class="table-responsive" style="border: 1px solid #ddd; border-radius: 10px; padding: 10px; border-collapse: separate; border-spacing: 0;">
-            <table id="accounts-table" class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Registered At</th>
-                        <th style="width: 150px;">Actions</th>
-                    </tr>
-                </thead>
-            </table>
+    {{-- Breadcrumb Navigation --}}
+    <div class="row align-items-center mb-3">
+        <div class="col-md-6">
+            <h2 class="fw-bold text-success">Registered Accounts</h2>
+        </div>
+        <div class="col-md-6 text-md-end">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-md-end">
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-success">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Registered Accounts</li>
+                </ol>
+            </nav>
         </div>
     </div>
+
+    <div class="table-responsive" style="border: 1px solid #ddd; border-radius: 10px; padding: 10px; border-collapse: separate; border-spacing: 0;">
+        <table id="accounts-table" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Registered At</th>
+                    <th style="width: 150px;">Actions</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
 
     {{-- ADD MODAL ACCOUNT --}}
     <div class="modal fade" id="addAccountModal" tabindex="-1" aria-labelledby="addAccountModalLabel" aria-hidden="true">

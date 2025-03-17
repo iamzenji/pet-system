@@ -2,7 +2,21 @@
 
 @section('content')
 <div class="container">
-    <h2 class="mb-4">Roles Management</h2>
+    {{-- Breadcrumb Navigation --}}
+    <div class="row align-items-center mb-3">
+        <div class="col-md-6">
+            <h2 class="fw-bold text-success">Roles Management</h2>
+        </div>
+        <div class="col-md-6 text-md-end">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-md-end">
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-success">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Roles Management</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
     <div class="table-responsive" style="border: 1px solid #ddd; border-radius: 10px; padding: 10px; border-collapse: separate; border-spacing: 0;">
         <table id="rolesTable" class="table table-striped">
             <thead>
@@ -15,6 +29,7 @@
         </table>
     </div>
 </div>
+
 
 <!-- Add Role Modal -->
 <div class="modal fade" id="roleModal" tabindex="-1" aria-labelledby="roleModalLabel" aria-hidden="true">

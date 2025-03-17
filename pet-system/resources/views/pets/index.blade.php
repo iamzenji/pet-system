@@ -2,36 +2,51 @@
 @section('content')
 
 
-    {{-- DISPLAY DATA --}}
-    <div class="container mt-4">
-        <h1 class="text-center">Pet List</h1>
-        <div style="border: 1px solid #ddd; border-radius: 10px; padding: 10px; border-collapse: separate; border-spacing: 0;">
-            <table id="petTable" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Pet ID</th>
-                        <th>Pet Type</th>
-                        <th>Breed</th>
-                        <th>Gender</th>
-                        <th>Color</th>
-                        <th>Size</th>
-                        <th>Age</th>
-                        <th>Weight</th>
-                        <th>Temperament</th>
-                        <th>Health Status</th>
-                        <th>Spayed/Neutered</th>
-                        <th>Vaccination Status</th>
-                        <th>Good With</th>
-                        <th>Adoption Status</th>
-                        <th>Image</th>
-                        <th style="width: 150px;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+<div class="container mt-4">
+    {{-- Breadcrumb Navigation --}}
+    <div class="row align-items-center mb-3">
+        <div class="col-md-6">
+            <h1 class="fw-bold text-success">Pet List</h1>
+        </div>
+        <div class="col-md-6 text-md-end">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-md-end">
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-success">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('pets.index') }}" class="text-decoration-none text-success">Pets</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Pet List</li>
+                </ol>
+            </nav>
         </div>
     </div>
+
+    {{-- DISPLAY DATA --}}
+    <div style="border: 1px solid #ddd; border-radius: 10px; padding: 10px;">
+        <table id="petTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Pet ID</th>
+                    <th>Pet Type</th>
+                    <th>Breed</th>
+                    <th>Gender</th>
+                    <th>Color</th>
+                    <th>Size</th>
+                    <th>Age</th>
+                    <th>Weight</th>
+                    <th>Temperament</th>
+                    <th>Health Status</th>
+                    <th>Spayed/Neutered</th>
+                    <th>Vaccination Status</th>
+                    <th>Good With</th>
+                    <th>Adoption Status</th>
+                    <th>Image</th>
+                    <th style="width: 150px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 
     {{-- ADD MODAL --}}
