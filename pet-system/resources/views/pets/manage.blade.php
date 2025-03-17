@@ -46,7 +46,7 @@
     </div>
 </div>
 
-<!-- Edit Type Modal -->
+<!--Type Modal -->
 <div class="modal fade" id="editTypeModal" tabindex="-1" aria-labelledby="editTypeModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -77,32 +77,4 @@
 
 @endsection
 
-@push('scripts')
-<script>
-    $(document).ready(function () {
-        $.ajax({
-            url: '/get-pet-types',
-            type: 'GET',
-            success: function (response) {
-                let select = $('#type');
-                response.forEach(function (item) {
-                    select.append(`<option value="${item.name}">${item.name}</option>`);
-                });
-            }
-        });
-
-        $.ajax({
-            url: '/get-pet-types',
-            type: 'GET',
-            success: function (response) {
-                let select = $('#edit_type');
-                response.forEach(function (item) {
-                    select.append(`<option value="${item.name}">${item.name}</option>`);
-                });
-            }
-        });
-    });
-
-</script>
-@endpush
 

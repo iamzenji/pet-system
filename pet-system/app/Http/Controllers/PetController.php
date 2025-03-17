@@ -197,6 +197,11 @@ class PetController extends Controller
         return response()->json(['success' => 'Pet type deleted successfully']);
     }
 
+    public function fetchPetTypes()
+{
+    $types = Types::select('id', 'name')->get();
+    return response()->json($types);
+}
 
 
 }

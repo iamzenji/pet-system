@@ -38,11 +38,11 @@
     <div class="modal" id="addPetModal" tabindex="-1" aria-labelledby="addPetModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header bg-dark">
+                <div class="modal-header bg-dark text-white">
                     <h5 class="modal-title text-white">
                         <i class="fa-solid fa-dog"></i> Create a New Pet
                     </h5>
-                    <button type="button" class="btn-close text-danger" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(30%) sepia(89%) saturate(7489%) hue-rotate(360deg) brightness(92%) contrast(125%);"></button>
                 </div>
                 <div class="modal-body">
                     <form id="petForm" enctype="multipart/form-data">
@@ -165,7 +165,7 @@
                         </div>
 
                         <div class="d-grid mt-3">
-                            <button type="button" class="btn btn-primary" id="confirmSubmit">Save Pet</button>
+                            <button type="button" class="btn btn-success" id="confirmSubmit">Save Pet</button>
                         </div>
                     </form>
                 </div>

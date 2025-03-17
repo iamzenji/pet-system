@@ -8,9 +8,6 @@ use Yajra\DataTables\DataTables;
 
 class RoleController extends Controller
 {
-    /**
-     * Display the roles management page.
-     */
     public function index()
     {
         return view('pets.role');
@@ -51,4 +48,17 @@ class RoleController extends Controller
 
         return response()->json(['message' => 'Role deleted successfully!']);
     }
+
+    public function update(Request $request, $id)
+{
+    $request->validate([
+        'name' => 'required|string|max:255'
+    ]);
+
+    $role = Role::findOrFail($id);
+    $role->update(['name' => $request->name]);
+
+    return response()->json(['message' => 'Role updated successfully']);
+}
+
 }

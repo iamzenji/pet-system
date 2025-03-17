@@ -1,19 +1,79 @@
-// MANAGE PET TYPES
+// MANAGE PET TYPE AND BREED
 $(document).ready(function () {
-    var domSetup = "<'row'<'col-sm-12 col-md-8'B><'col-sm-12 col-md-4'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>";
-    const lengthMenu = [[10, 25, 50, -1], ['10 rows', '25 rows', '50 rows', 'Show all']];
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+    });
 
-    let table = $('#typeTable').DataTable({
+    var domSetup =
+        "<'row'<'col-sm-12 col-md-8'B><'col-sm-12 col-md-4'f>>" +
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>";
+
+
+    const A_LENGTH_MENU = [
+        [10, 25, 50, 100, -1],
+        ["10 rows", "25 rows", "50 rows", "100 rows", "Show all"],
+    ];
+    const TABLE_BUTTONS = [
+        {
+            extend: "colvis",
+            className: "btn btn-success",
+            text: '<i class="fas fa-columns"></i> Column Visibility',
+        },
+        { extend: "pageLength", className: "btn btn-success" },
+    ];
+
+    var specific_table = [
+        {
+            text: '<i class="bi bi-plus-lg"></i> Add Pet Type',
+            className: "btn btn-success",
+            action: function () {
+                $("#addTypeModal").modal("show");
+            },
+        },
+        {
+            extend: "copy",
+            text: '<i class="bi bi-clipboard"></i> Copy',
+            className: "btn btn-success",
+        },
+        {
+            extend: "excel",
+            text: '<i class="bi bi-file-earmark-excel"></i> Excel',
+            className: "btn btn-success",
+        },
+        {
+            extend: "csv",
+            text: '<i class="bi bi-file-earmark-text"></i> CSV',
+            className: "btn btn-success",
+        },
+        {
+            extend: "pdf",
+            text: '<i class="bi bi-file-earmark-pdf"></i> PDF',
+            className: "btn btn-success",
+        },
+        {
+            extend: "print",
+            text: '<i class="bi bi-printer"></i> Print',
+            className: "btn btn-success",
+        },
+    ];
+
+    var BUTTONS = $.merge(specific_table, TABLE_BUTTONS);
+    let table = $("#typeTable").DataTable({
         processing: true,
         serverSide: true,
         ajax: {
             url: "/types/list",
             type: "GET",
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
         },
         columns: [
-            { data: 'type' },
-            { data: 'breed' },
+            { data: "type" },
+            { data: "breed" },
             {
                 data: null,
                 orderable: false,
@@ -26,91 +86,118 @@ $(document).ready(function () {
                             <i class="bi bi-trash"></i> Delete
                         </button>
                     `;
-                }
-            }
+                },
+            },
         ],
         dom: domSetup,
-        lengthMenu: lengthMenu,
+        lengthMenu: A_LENGTH_MENU,
         responsive: true,
-        buttons: [
-            {
-                text: '<i class="bi bi-plus-lg"></i> Add',
-                className: 'btn btn-secondary',
-                action: function () {
-                    $('#addTypeModal').modal('show');
-                }
-            }
-        ]
+        buttons: specific_table,
     });
 
-    $('#addTypeForm').submit(function (e) {
+    $("#addTypeForm").submit(function (e) {
         e.preventDefault();
         $.ajax({
             url: "/types",
             type: "POST",
             data: $(this).serialize(),
             success: function (response) {
-                $('#addTypeModal').modal('hide');
+                $("#addTypeModal").modal("hide");
                 table.ajax.reload();
-                Swal.fire('Success!', 'Type added successfully!', 'success');
-            }
+                Swal.fire("Success!", "Type added successfully!", "success");
+            },
         });
     });
 
-    $(document).on('click', '.edit-btn', function () {
-        let id    = $(this).data('id');
-        let type  = $(this).data('type');
-        let breed = $(this).data('breed');
+    $(document).on("click", ".edit-btn", function () {
+        let id = $(this).data("id");
+        let type = $(this).data("type");
+        let breed = $(this).data("breed");
 
-        $('#edit_id').val(id);
-        $('#edit_type').val(type);
-        $('#edit_breed').val(breed);
+        $("#edit_id").val(id);
+        $("#edit_type").val(type);
+        $("#edit_breed").val(breed);
 
-        $('#editTypeModal').modal('show');
+        $("#editTypeModal").modal("show");
     });
 
-    $('#editTypeForm').submit(function (e) {
+    $("#editTypeForm").submit(function (e) {
         e.preventDefault();
-        let id = $('#edit_id').val();
+        let id = $("#edit_id").val();
 
         $.ajax({
             url: `/types/${id}`,
             type: "PUT",
             data: $(this).serialize(),
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
             success: function (response) {
-                $('#editTypeModal').modal('hide');
+                $("#editTypeModal").modal("hide");
                 table.ajax.reload();
-                Swal.fire('Updated!', 'Type updated successfully!', 'success');
-            }
+                Swal.fire("Updated!", "Type updated successfully!", "success");
+            },
         });
     });
 
-    $(document).on('click', '.delete-type', function () {
-        let typeId = $(this).data('id');
+    $(document).on("click", ".delete-type", function () {
+        let typeId = $(this).data("id");
         Swal.fire({
             title: "Are you sure you want to delete this type?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#d33",
             cancelButtonColor: "#3085d6",
-            confirmButtonText: "Yes"
+            confirmButtonText: "Yes",
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
                     url: `/types/${typeId}`,
                     type: "DELETE",
-                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                            "content"
+                        ),
+                    },
                     success: function () {
                         table.ajax.reload();
-                        Swal.fire('Deleted!', 'Type deleted successfully!', 'success');
-                    }
+                        Swal.fire(
+                            "Deleted!",
+                            "Type deleted successfully!",
+                            "success"
+                        );
+                    },
                 });
             }
         });
     });
-});
 
+    $.ajax({
+        url: "/fetch-pet-types",
+        type: "GET",
+        success: function (response) {
+            let select = $("#type");
+            response.forEach(function (item) {
+                select.append(
+                    `<option value="${item.name}">${item.name}</option>`
+                );
+            });
+        },
+    });
+
+    $.ajax({
+        url: "/fetch-pet-types",
+        type: "GET",
+        success: function (response) {
+            let select = $("#edit_type");
+            response.forEach(function (item) {
+                select.append(
+                    `<option value="${item.name}">${item.name}</option>`
+                );
+            });
+        },
+    });
+});
 
 
 // // PETS

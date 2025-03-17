@@ -45,7 +45,7 @@ Route::group(['middleware' => ['auth', 'role:superadministrator|administrator']]
     Route::get('/role-manage', [RoleController::class, 'index'])->name('index');
     Route::get('/data', [RoleController::class, 'fetchRoles'])->name('data');
     Route::post('/role-data', [RoleController::class, 'store'])->name('store');
-    Route::put('/{id}', [RoleController::class, 'update'])->name('update');
+    Route::put('/update/{id}', [RoleController::class, 'update'])->name('update');
     Route::delete('/{id}', [RoleController::class, 'destroy'])->name('delete');
     });
 
@@ -92,7 +92,7 @@ Route::group(['middleware' => ['auth', 'role:superadministrator|administrator|us
     Route::put('/pet-types/update/{id}', [PetController::class, 'update_types'])->name('pet.types.update');
 
 
-
+Route::get('/fetch-pet-types', [PetController::class, 'fetchPetTypes'])->name('pet.types.fetch');
 
 
 });
