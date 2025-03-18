@@ -3,7 +3,6 @@
 @section('content')
 <div class="container">
 
-    {{-- Breadcrumb Navigation --}}
     <div class="row align-items-center mb-3">
         <div class="col-md-6">
             <h2 class="fw-bold text-success">Adoption Requests</h2>
@@ -38,6 +37,7 @@
     </div>
 </div>
 
+
 @endsection
 
 @push('scripts')
@@ -48,9 +48,10 @@ $(document).ready(function () {
         processing: true,
         serverSide: true,
         ajax: "{{ route('adoptions.list') }}",
-        dom: "<'row'<'col-sm-12 col-md-8'B><'col-sm-12 col-md-4'f>>" +
-            "<'row'<'col-sm-12'tr>>" +
-            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+        dom: "<'row'<'col-sm-12 col-md-8 d-flex align-items-center'B<'filter-container ms-2'>>" +
+                "<'col-sm-12 col-md-4'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         lengthMenu: [[10, 25, 50, 100, -1], ['10 rows', '25 rows', '50 rows', '100 rows', 'Show all']],
         buttons: [
             { extend: 'colvis', className: 'btn btn-success', text: '<i class="fas fa-columns"></i> Column Visibility' },
@@ -69,14 +70,18 @@ $(document).ready(function () {
             { data: 'address', name: 'address' },
             { data: 'reason', name: 'reason' },
             { data: 'experience', name: 'experience' },
-            { data: 'status', name: 'status', render: function (data, type, row) {
-                return `
-                    <select class="form-select update-status" data-id="${row.id}">
-                        <option value="Pending" ${data === 'Pending' ? 'selected' : ''}>Pending</option>
-                        <option value="Approved" ${data === 'Approved' ? 'selected' : ''}>Approved</option>
-                        <option value="Rejected" ${data === 'Rejected' ? 'selected' : ''}>Rejected</option>
-                    </select>`;
-            }},
+            { data: 'status', name: 'status',
+            render: function (data, type, row) {
+                let statusClass = data === 'Approved' ? 'text-success' :
+                                data === 'Rejected' ? 'text-danger' :
+                                data === 'Pending' ? 'text-warning' : '';
+                        return `
+                        <select class="form-select update-status ${statusClass}" data-id="${row.id}" style="width: 120px;">
+                            <option value="Pending" ${data === 'Pending' ? 'selected' : ''} style="color: orange;">Pending</option>
+                            <option value="Approved" ${data === 'Approved' ? 'selected' : ''} style="color: green;">Approved</option>
+                            <option value="Rejected" ${data === 'Rejected' ? 'selected' : ''} style="color: red;">Rejected</option>
+                        </select>`;
+                    }},
             { data: 'adopted_date', name: 'adopted_date', render: function (data, type, row) {
                 return `<input type="date" class="form-control update-date" data-id="${row.id}" value="${data || ''}">`;
             }},
@@ -92,7 +97,28 @@ $(document).ready(function () {
                         </button>`;
                 }
             }
-        ]
+        ],
+
+        initComplete: function () {
+            $('.filter-container').html(`
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Status <i class="fa fa-filter"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item filter-option" href="#" data-value="">Show All</a>
+                        <a class="dropdown-item filter-option" href="#" data-value="Pending">Pending</a>
+                        <a class="dropdown-item filter-option" href="#" data-value="Approved">Approved</a>
+                        <a class="dropdown-item filter-option" href="#" data-value="Rejected">Rejected</a>
+                    </div>
+                </div>
+            `);
+
+            $('.filter-option').on('click', function () {
+                let filterValue = $(this).attr('data-value');
+                table.column(7).search(filterValue).draw();
+            });
+        }
     });
 
     // Handle status update
@@ -159,6 +185,7 @@ $(document).ready(function () {
         });
     });
 });
+
 
 </script>
 @endpush

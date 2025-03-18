@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    
+
     <div class="row g-4 justify-content-center">
     @php
         $petsCount = \App\Models\Pet::count();
@@ -32,7 +32,7 @@
         ];
     @endphp
     @foreach ($cards as $card)
-    <div class="col-lg-3 col-md-4 col-sm-6 d-flex">
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 d-flex">
         <a href="{{ route($card['route']) }}" class="text-decoration-none w-100">
             <div class="card shadow-sm border-0 rounded-lg p-4 clickable-card text-center w-100">
                 <div class="icon-container mb-3">
@@ -76,8 +76,6 @@
         <div id="adoptionBarChart" class="chart-container"></div>
     </div>
 </div>
-
-
 
 
 
