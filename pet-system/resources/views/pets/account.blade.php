@@ -126,6 +126,7 @@
             processing: true,
             serverSide: true,
             ajax: "/accounts/data",
+            responsive: true,
             dom: 'Bfrtip',
             buttons: [
                 {

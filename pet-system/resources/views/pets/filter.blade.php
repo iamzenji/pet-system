@@ -161,6 +161,7 @@
         processing: true,
         serverSide: true,
         ajax: "{{ route('pet.types.data') }}",
+        responsive: true,
         columns: [
             { data: 'name', name: 'name' },
             { data: 'actions', name: 'actions', orderable: false, searchable: false }

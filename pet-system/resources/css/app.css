@@ -3,14 +3,14 @@
 }
 
 .dataTables_paginate .pagination .page-item .page-link {
-    background-color: #28a745 !important;
+    background-color: #157347 !important;
     color: white !important;
     border: 0.1px solid white !important;
     outline: none !important;
 }
 
 .dataTables_paginate .pagination .page-item.active .page-link {
-    background-color: #218838 !important;
+    background-color: #157347 !important;
     border-color: white !important;
 }
     
@@ -21,11 +21,21 @@
     outline: none !important;
 }
 
+.navbar-custom {
+    background-color: #157347 !important;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link,
+.navbar-custom .dropdown-toggle {
+    color: white !important;
+}
+
+.navbar-custom .nav-link:hover {
+    color: #f8f9fa !important;
+}
 
 
-
-
-/* Ensure the main container uses more screen width */
 .container {
     max-width: 90%;
 }
@@ -37,7 +47,6 @@
     }
 }
 
-/* Make table scrollable on smaller screens */
 @media (max-width: 992px) {
     .table-responsive {
         display: block;
@@ -46,7 +55,6 @@
         white-space: nowrap;
     }
 }
-
 /* Navbar fixes for mobile */
 @media (max-width: 768px) {
     .navbar-nav {
@@ -67,7 +75,6 @@
     }
 }
 
-/* Adjust button and text size for smaller screens */
 @media (max-width: 576px) {
     .btn {
         font-size: 14px;
@@ -79,7 +86,6 @@
     }
 }
 
-/* Fix table alignment and spacing */
 .table {
     width: 100%;
 }
@@ -92,7 +98,6 @@
     }
 }
 
-/* Reduce margins/padding for smaller screens */
 @media (max-width: 576px) {
     .table th,
     .table td {
@@ -104,3 +109,6 @@
         justify-content: center;
     }
 }
+
+
+

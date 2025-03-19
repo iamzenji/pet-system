@@ -23,8 +23,19 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+Route::get('/support', function () {
+    return view('support');
+})->name('support');
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
+Route::get('/adoption/pets', [AdoptionController::class, 'showAvailablePets'])->name('adoption.pets');
+Route::post('/adoption/store', [AdoptionController::class, 'store'])->name('adoption.store');
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
 });
@@ -105,10 +116,6 @@ Route::get('/fetch-pet-types', [PetController::class, 'fetchPetTypes'])->name('p
 
 });
 
-// PUBLIC VIEW
-
-Route::post('/adoption/store', [AdoptionController::class, 'store'])->name('adoption.store');
-Route::get('/adoption/pets', [AdoptionController::class, 'showAvailablePets'])->name('adoption.pets');
 
 Auth::routes(['verify' => true]);
 Route::get('/home', [HomeController::class, 'index'])->name('home');

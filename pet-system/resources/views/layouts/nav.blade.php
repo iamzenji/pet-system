@@ -1,18 +1,19 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container">
-        <a class="navbar-brand" href="{{ route('home') }}">Pet System</a>
+        <a class="navbar-brand" href="{{ url('/') }}">  <i class="fas fa-paw text-white"></i> Pet System</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
+                @auth
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('list') ? 'active' : '' }}" href="{{ route('adoption.pets') }}">Adopt Pet</a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('pets.index') ? 'active' : '' }}" href="{{ route('pets.index') }}">Pets</a>
                 </li>
@@ -26,9 +27,6 @@
                         Adoption Requests
                     </a>
                 </li>
-                {{-- <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('account') ? 'active' : '' }}" href="{{ route('account') }}">Account</a>
-                </li> --}}
                 @php
                     $userRoleId = Auth::check() ? Auth::user()->roles->first()->id : null;
                 @endphp
@@ -36,10 +34,9 @@
                 <li class="nav-item" @if($userRoleId == 3 || $userRoleId == 4) style="display: none;" @endif>
                     <a class="nav-link {{ request()->routeIs('account') ? 'active' : '' }}" href="{{ route('account') }}">Account</a>
                 </li>
-                @auth
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('pets.manage') ? 'active' : '' }}" href="{{ route('pets.manage') }}">
-                        Manage Breeds & Types
+                        Manage Breeds
                     </a>
                 </li>
 

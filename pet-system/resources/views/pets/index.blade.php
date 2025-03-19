@@ -38,7 +38,7 @@
                     <th>Good With</th>
                     <th>Adoption Status</th>
                     <th>Image</th>
-                    <th style="width: 150px;">Actions</th>
+                    <th style="width: 60px;">Actions</th>
                 </tr>
             </thead>
             <tbody>

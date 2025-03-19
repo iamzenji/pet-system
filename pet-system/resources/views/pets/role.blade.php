@@ -153,14 +153,20 @@
                 render: function (data, type, row) {
                     return `
                         <div class="btn-group">
-                            <button class="btn btn-warning btn-sm edit-role" data-id="${row.id}"><i class="fas fa-pencil-alt"></i></button>
-                            <button class="btn btn-danger btn-sm delete" data-id="${row.id}"><i class="bi bi-trash"></i></button>
+                            <button class="btn btn-warning btn-sm edit-role" data-id="${row.id}">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+                            <span style="margin-right: 5px;"></span>
+                            <button class="btn btn-danger btn-sm delete" data-id="${row.id}">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </div>
                     `;
                 }
             }
         ],
         dom: domSetup,
+        responsive: true,
         lengthMenu: A_LENGTH_MENU,
         buttons: [...TABLE_BUTTONS, ...specific_table]
     });

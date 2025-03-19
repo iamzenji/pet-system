@@ -1,125 +1,134 @@
-@extends('layouts.public')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Adoption</title>
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-4 fw-bold text-success">Available Pets for Adoption</h1>
 
-@section('content')
-@include('layouts.header-public')
-<div class="container">
-    <h1 class="text-center my-4 fw-bold text-success">Available Pets for Adoption</h1>
+        {{-- FILTER --}}
+        <div class="d-flex justify-content-center gap-2 mb-4">
+            <button class="btn btn-success active filter-btn rounded-pill px-4" data-filter="all">All</button>
 
-    {{-- FILTER --}}
-    <div class="d-flex justify-content-center gap-2 mb-4">
-        <button class="btn btn-success active filter-btn rounded-pill px-4" data-filter="all">All</button>
+            @php
+                $petTypes = \App\Models\Types::all(); // Fetch pet types directly in the view
+            @endphp
 
-        @php
-            $petTypes = \App\Models\Types::all(); // Fetch pet types directly in the view
-        @endphp
+            @foreach($petTypes as $type)
+                <button class="btn btn-outline-success filter-btn rounded-pill px-4" data-filter="{{ strtolower($type->name) }}">
+                    {{ ucfirst($type->name) }}
+                </button>
+            @endforeach
+        </div>
 
-        @foreach($petTypes as $type)
-            <button class="btn btn-outline-success filter-btn rounded-pill px-4" data-filter="{{ strtolower($type->name) }}">
-                {{ ucfirst($type->name) }}
-            </button>
-        @endforeach
-    </div>
+        {{-- PET LIST CARD --}}
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+            @foreach($pets as $pet)
+                @if($pet->adoption_status === 'Available')
+                    <div class="col pet-card" data-category="{{ strtolower($pet->type) }}">
+                        <div class="card shadow h-100 d-flex flex-column border-0  overflow-hidden">
+                            {{-- Image Section --}}
+                            <div class="position-relative">
+                                <img src="{{ $pet->image ? asset('storage/' . $pet->image) : asset('images/default-pet.jpg') }}"
+                                    class="card-img-top img-fluid w-100 rounded-top"
+                                    style="height: 230px; object-fit: cover;">
+                                <span class="position-absolute top-0 start-0 bg-success text-white px-3 py-1 rounded-bottom small">
+                                    Available
+                                </span>
+                            </div>
 
-    {{-- PET LIST CARD --}}
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
-        @foreach($pets as $pet)
-            @if($pet->adoption_status === 'Available')
-                <div class="col pet-card" data-category="{{ strtolower($pet->type) }}">
-                    <div class="card shadow h-100 d-flex flex-column border-0  overflow-hidden">
-                        {{-- Image Section --}}
-                        <div class="position-relative">
-                            <img src="{{ $pet->image ? asset('storage/' . $pet->image) : asset('images/default-pet.jpg') }}"
-                                class="card-img-top img-fluid w-100 rounded-top"
-                                style="height: 230px; object-fit: cover;">
-                            <span class="position-absolute top-0 start-0 bg-success text-white px-3 py-1 rounded-bottom small">
-                                Available
-                            </span>
-                        </div>
+                            {{-- Card Body --}}
+                            <div class="card-body d-flex flex-column p-3">
+                                <h6 class="text-success fw-bold mb-1">
+                                    {{ strtoupper(substr($pet->type, 0, 1)) }}{{ strtoupper(substr($pet->breed, 0, 1)) }}{{ strtoupper(substr($pet->gender, 0, 1)) }}-{{ strtoupper(substr($pet->color, 0, 1)) }}{{ strtoupper(substr($pet->size, 0, 1)) }}{{ $pet->age }}-{{ $pet->id }}
+                                </h6>
+                                <h6 class="text-secondary fw-semibold mb-2">{{ ucfirst($pet->type) }} - {{ $pet->breed }}</h6>
 
-                        {{-- Card Body --}}
-                        <div class="card-body d-flex flex-column p-3">
-                            <h6 class="text-success fw-bold mb-1">
-                                {{ strtoupper(substr($pet->type, 0, 1)) }}{{ strtoupper(substr($pet->breed, 0, 1)) }}{{ strtoupper(substr($pet->gender, 0, 1)) }}-{{ strtoupper(substr($pet->color, 0, 1)) }}{{ strtoupper(substr($pet->size, 0, 1)) }}{{ $pet->age }}-{{ $pet->id }}
-                            </h6>
-                            <h6 class="text-secondary fw-semibold mb-2">{{ ucfirst($pet->type) }} - {{ $pet->breed }}</h6>
+                                {{-- Pet Details --}}
+                                @php
+                                    $colorMap = [
+                                        'golden retriever' => 'goldenrod',
+                                        'black' => 'black',
+                                        'white' => 'white',
+                                        'brown' => 'saddlebrown',
+                                        'gray' => 'gray',
+                                        'golden' => 'gold',
+                                        'red' => 'red',
+                                        'cream brown' => 'saddlebrown'
+                                    ];
+                                    $petColor = strtolower($pet->color);
+                                    $backgroundColor = $colorMap[$petColor] ?? 'gray';
 
-                            {{-- Pet Details --}}
-                            @php
-                                $colorMap = [
-                                    'golden retriever' => 'goldenrod',
-                                    'black' => 'black',
-                                    'white' => 'white',
-                                    'brown' => 'saddlebrown',
-                                    'gray' => 'gray',
-                                    'golden' => 'gold',
-                                    'red' => 'red',
-                                    'cream brown' => 'saddlebrown'
-                                ];
-                                $petColor = strtolower($pet->color);
-                                $backgroundColor = $colorMap[$petColor] ?? 'gray';
+                                    $textColor = (in_array($backgroundColor, ['white', 'gold', 'goldenrod'])) ? 'black' : 'white';
 
-                                $textColor = (in_array($backgroundColor, ['white', 'gold', 'goldenrod'])) ? 'black' : 'white';
+                                    $textShadow = ($textColor === 'black') ? 'text-shadow: 1px 1px 2px rgba(0,0,0,0.5);' : '';
 
-                                $textShadow = ($textColor === 'black') ? 'text-shadow: 1px 1px 2px rgba(0,0,0,0.5);' : '';
+                                    $boxShadow = 'box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);';
 
-                                $boxShadow = 'box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);';
+                                    $gender = strtolower($pet->gender);
+                                    $genderIcon = $gender === 'male' ? 'bi-gender-male' : 'bi-gender-female';
+                                    $genderColor = $gender === 'male' ? 'text-primary' : '';
+                                    $genderStyle = $gender === 'female' ? 'color: pink;' : '';
+                                @endphp
 
-                                $gender = strtolower($pet->gender);
-                                $genderIcon = $gender === 'male' ? 'bi-gender-male' : 'bi-gender-female';
-                                $genderColor = $gender === 'male' ? 'text-primary' : '';
-                                $genderStyle = $gender === 'female' ? 'color: pink;' : '';
-                            @endphp
+                                <ul class="list-unstyled text-muted small flex-grow-1">
+                                    <li>
+                                        <strong>Gender:</strong>
+                                        {{ ucfirst($pet->gender) }}
+                                        <i class="bi {{ $genderIcon }} {{ $genderColor }}" style="{{ $genderStyle }}"></i>
+                                    </li>
+                                    <li>
+                                        <strong>Color:</strong>
+                                        <small class="d-inline px-3 py-1 rounded-4"
+                                            style="background-color: {{ $backgroundColor }};
+                                                color: {{ $textColor }};
+                                                {{ $textShadow }}
+                                                {{ $boxShadow }}">
+                                            {{ ucfirst($pet->color) }}
+                                        </small>
+                                    </li>
+                                    <li><strong>Size:</strong> {{ ucfirst($pet->size) }}</li>
+                                    <li><strong>Age:</strong> {{ $pet->age }} years</li>
+                                </ul>
 
-                            <ul class="list-unstyled text-muted small flex-grow-1">
-                                <li>
-                                    <strong>Gender:</strong>
-                                    {{ ucfirst($pet->gender) }}
-                                    <i class="bi {{ $genderIcon }} {{ $genderColor }}" style="{{ $genderStyle }}"></i>
-                                </li>
-                                <li>
-                                    <strong>Color:</strong>
-                                    <small class="d-inline px-3 py-1 rounded-4"
-                                        style="background-color: {{ $backgroundColor }};
-                                            color: {{ $textColor }};
-                                            {{ $textShadow }}
-                                            {{ $boxShadow }}">
-                                        {{ ucfirst($pet->color) }}
-                                    </small>
-                                </li>
-                                <li><strong>Size:</strong> {{ ucfirst($pet->size) }}</li>
-                                <li><strong>Age:</strong> {{ $pet->age }} years</li>
-                            </ul>
-
-
-
-                            {{-- Adopt Button --}}
-                            <button class="btn btn-success w-100 fw-bold mt-auto rounded-pill adopt-btn"
-                                data-bs-toggle="modal"
-                                data-bs-target="#adoptModal"
-                                data-id="{{ $pet->id }}"
-                                data-type="{{ $pet->type }}"
-                                data-breed="{{ $pet->breed }}"
-                                data-gender="{{ ucfirst($pet->gender) }}"
-                                data-color="{{ ucfirst($pet->color) }}"
-                                data-size="{{ ucfirst($pet->size) }}"
-                                data-age="{{ $pet->age }}"
-                                data-weight="{{ $pet->weight }}"
-                                data-image="{{ $pet->image ? asset('storage/' . $pet->image) : asset('images/default-pet.jpg') }}"
-                                data-temperament="{{ $pet->temperament }}"
-                                data-health_status="{{ $pet->health_status }}"
-                                data-spayed_neutered="{{ $pet->spayed_neutered }}"
-                                data-vaccination_status="{{ $pet->vaccination_status }}"
-                                data-good_with="{{ $pet->good_with }}"
-                                data-adoption_status="{{ $pet->adoption_status }}">
-                                🐶 Adopt Now
-                            </button>
+                                {{-- Adopt Button --}}
+                                <button class="btn btn-success w-100 fw-bold mt-auto rounded-pill adopt-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#adoptModal"
+                                    data-id="{{ $pet->id }}"
+                                    data-type="{{ $pet->type }}"
+                                    data-breed="{{ $pet->breed }}"
+                                    data-gender="{{ ucfirst($pet->gender) }}"
+                                    data-color="{{ ucfirst($pet->color) }}"
+                                    data-size="{{ ucfirst($pet->size) }}"
+                                    data-age="{{ $pet->age }}"
+                                    data-weight="{{ $pet->weight }}"
+                                    data-image="{{ $pet->image ? asset('storage/' . $pet->image) : asset('images/default-pet.jpg') }}"
+                                    data-temperament="{{ $pet->temperament }}"
+                                    data-health_status="{{ $pet->health_status }}"
+                                    data-spayed_neutered="{{ $pet->spayed_neutered }}"
+                                    data-vaccination_status="{{ $pet->vaccination_status }}"
+                                    data-good_with="{{ $pet->good_with }}"
+                                    data-adoption_status="{{ $pet->adoption_status }}">
+                                    🐶 Adopt Now
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endif
-        @endforeach
+                @endif
+            @endforeach
+        </div>
     </div>
-</div>
 
     {{-- ADOPT PET INFO MODAL --}}
     <div class="modal fade" id="adoptModal" tabindex="-1" aria-labelledby="adoptModalLabel" aria-hidden="true">
@@ -234,8 +243,12 @@
             </div>
         </div>
     </div>
-@endsection
-@push('scripts')
+
+    <!-- JS Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://fastly.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     // ADOPT PET
     document.addEventListener("DOMContentLoaded", function () {
@@ -367,7 +380,9 @@
         });
     });
 });
-
 </script>
-@endpush
+</body>
+</html>
+
+
 

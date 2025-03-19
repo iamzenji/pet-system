@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <div class="table-responsive" style="border: 1px solid #ddd; border-radius: 10px; padding: 10px; border-collapse: separate; border-spacing: 0;">
+    <div style="border: 1px solid #ddd; border-radius: 10px; padding: 10px;">
         <table id="adoptPetTable" class="table table-striped">
             <thead>
                 <tr>
@@ -48,6 +48,7 @@ $(document).ready(function () {
         processing: true,
         serverSide: true,
         ajax: "{{ route('adoptions.list') }}",
+        responsive: true,
         dom: "<'row'<'col-sm-12 col-md-8 d-flex align-items-center'B<'filter-container ms-2'>>" +
                 "<'col-sm-12 col-md-4'f>>" +
                 "<'row'<'col-sm-12'tr>>" +

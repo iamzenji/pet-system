@@ -45,12 +45,7 @@
         <div id="adoptionBarChart" class="chart-container"></div>
     </div>
 </div>
-
-
-
 </div>
-
-
 <style>
     .clickable-card {
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
