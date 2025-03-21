@@ -13,6 +13,7 @@ class PetAnalyticsController extends Controller
         return view('pets.analytics');
     }
 
+    // TYPE OF PET
     public function getAnalyticsData()
     {
         $petData = Pet::selectRaw('type, COUNT(*) as count')
@@ -26,6 +27,7 @@ class PetAnalyticsController extends Controller
         ]);
     }
 
+    // BREED
     public function getBreedAnalyticsData($type)
     {
         $breedData = Pet::where('type', $type)
@@ -41,6 +43,7 @@ class PetAnalyticsController extends Controller
         ]);
     }
 
+    // USER
     public function getUserAnalytics()
     {
         $roleNames = [

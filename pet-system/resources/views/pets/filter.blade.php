@@ -17,6 +17,7 @@
         </div>
     </div>
 
+    {{-- TABLE --}}
     <div class="table-responsive" style="border: 1px solid #ddd; border-radius: 10px; padding: 10px; border-collapse: separate; border-spacing: 0;">
         <table id="petTypesTable" class="table table-striped">
             <thead>
@@ -108,9 +109,9 @@
         }
     });
 
-    var domSetup = "<'row'<'col-sm-12 col-md-8'B><'col-sm-12 col-md-4'f>>" + 
-                   "<'row'<'col-sm-12'tr>>" + 
-                   "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>";
+    var domSetup = "<'row'<'col-sm-12 col-md-8'B><'col-sm-12 col-md-4'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>";
 
     const A_LENGTH_MENU = [[10, 25, 50, 100, -1], ['10 rows', '25 rows', '50 rows', '100 rows', 'Show all']];
     const TABLE_BUTTONS = [

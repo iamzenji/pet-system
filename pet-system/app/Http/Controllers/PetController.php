@@ -11,30 +11,32 @@ use Illuminate\Support\Facades\Log;
 
 class PetController extends Controller
 {
+      // RE DIRECT
     public function index(Request $request)
     {
         return view('pets.index');
     }
 
+    // DISPLAY PET
     public function getPet(Request $request)
-{
-    $pets = Pet::all()->map(function ($pet) {
-        $pet->unique_id = strtoupper(
-            substr($pet->type, 0, 1) .
-            substr($pet->breed, 0, 1) .
-            substr($pet->gender, 0, 1) . "-" .
-            substr($pet->color, 0, 1) .
-            substr($pet->size, 0, 1) .
-            $pet->age . "-" .
-            $pet->id
-        );
-        return $pet;
-    });
+    {
+        $pets = Pet::all()->map(function ($pet) {
+            $pet->unique_id = strtoupper(
+                substr($pet->type, 0, 1) .
+                substr($pet->breed, 0, 1) .
+                substr($pet->gender, 0, 1) . "-" .
+                substr($pet->color, 0, 1) .
+                substr($pet->size, 0, 1) .
+                $pet->age . "-" .
+                $pet->id
+            );
+            return $pet;
+        });
 
-    return DataTables::of($pets)->toJson();
-}
+        return DataTables::of($pets)->toJson();
+    }
 
-      // ADD PET
+     // ADD PET
     public function store(Request $request)
     {
         $request->validate([
@@ -80,7 +82,7 @@ class PetController extends Controller
         return response()->json(['message' => 'Pet added successfully!'], 200);
     }
 
-      // UPDATE PET
+        // UPDATE PET
     public function update(Request $request, $id)
     {
         try {
@@ -123,7 +125,7 @@ class PetController extends Controller
             ], 500);
         }
     }
-      // DESTROY PET
+        // DESTROY PET
     public function destroy($id)
     {
         $pet = Pet::find($id);
@@ -151,11 +153,11 @@ class PetController extends Controller
         }
     }
 
+    // FILTER SECTION - PET TYPES
     public function filter()
     {
         return view('pets.filter');
     }
-
     public function getTypes(Request $request)
     {
         if ($request->ajax()) {
@@ -202,6 +204,5 @@ class PetController extends Controller
     $types = Types::select('id', 'name')->get();
     return response()->json($types);
 }
-
 
 }

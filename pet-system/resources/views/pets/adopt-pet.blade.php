@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
 
+<div class="container">
     <div class="row align-items-center mb-3">
         <div class="col-md-6">
             <h2 class="fw-bold text-success">Adoption Requests</h2>
@@ -16,7 +16,7 @@
             </nav>
         </div>
     </div>
-
+    {{-- TABLE --}}
     <div style="border: 1px solid #ddd; border-radius: 10px; padding: 10px;">
         <table id="adoptPetTable" class="table table-striped">
             <thead>
@@ -28,7 +28,7 @@
                     <th>Address</th>
                     <th>Reason</th>
                     <th>Experience</th>
-                    <th style="width: 120px" >Status</th>
+                    <th style="width: 130px" >Status</th>
                     <th style="width: 120px" >Adopted Date</th>
                     <th>Actions</th>
                 </tr>
@@ -77,7 +77,7 @@ $(document).ready(function () {
                                 data === 'Rejected' ? 'text-danger' :
                                 data === 'Pending' ? 'text-warning' : '';
                         return `
-                        <select class="form-select update-status ${statusClass}" data-id="${row.id}" style="width: 120px;">
+                        <select class="form-select update-status ${statusClass}" data-id="${row.id}" style="width: 130px;">
                             <option value="Pending" ${data === 'Pending' ? 'selected' : ''} style="color: orange;">Pending</option>
                             <option value="Approved" ${data === 'Approved' ? 'selected' : ''} style="color: green;">Approved</option>
                             <option value="Rejected" ${data === 'Rejected' ? 'selected' : ''} style="color: red;">Rejected</option>
@@ -186,7 +186,5 @@ $(document).ready(function () {
         });
     });
 });
-
-
 </script>
 @endpush

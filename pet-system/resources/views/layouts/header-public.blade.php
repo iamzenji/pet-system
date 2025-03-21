@@ -1,9 +1,9 @@
-<div class="top-bar">
+<div id="top-bar">
     <i class="fas fa-phone-alt"></i> +63 900 123 4567 |
     <i class="fas fa-envelope"></i> support@furryfriends.com
 </div>
 
-<nav class="navbar navbar-expand-lg">
+<nav id="main-navbar" class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand fw-bold text-success" href="{{ url('/') }}">
             <i class="fas fa-paw text-success"></i> FURRY FRIENDS

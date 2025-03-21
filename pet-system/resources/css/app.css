@@ -110,5 +110,111 @@
     }
 }
 
+/* ANALYTICS */
+.clickable-card {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    background: #ffffff;
+    border-radius: 5px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    min-height: 200px;
+    height: 250px;
+    width: 100%;
+}
+
+.clickable-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
+    background-color: #f8f9fa;
+}
+
+.icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    background: rgba(15, 111, 213, 0.1);
+    border-radius: 5%;
+}
+
+.chart-container {
+    height: 400px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+}
 
 
+
+/* PUBLIC PAGE */
+    #top-bar {
+        background: #157347;
+        padding: 10px 0;
+        color: white;
+        text-align: center;
+    }
+
+    #main-navbar {
+        background: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    #main-navbar .navbar-nav .nav-link {
+        color: #157347 !important;
+        font-weight: bold;
+    }
+    .hero-section {
+        background-color: white;
+        padding: 100px 0;
+        text-align: center;
+    }
+    .hero-section h1 {
+        font-size: 3rem;
+        font-weight: bold;
+    }
+    .hero-section p {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+    }
+    .btn-custom {
+        background: #157347;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-weight: bold;
+    }
+
+    /*  ABOUT US*/
+
+    .hero-section {
+        padding: 60px 0;
+    }
+    .hero-image img {
+        max-width: 100%;
+        height: auto;
+    }
+    .hero-content h1 {
+        font-weight: bold;
+    }
+    .hero-content p {
+        color: #666;
+    }
+    .list-icon {
+        color: #28a745;
+        margin-right: 10px;
+    }
+    .read-more {
+        color: #000;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    .read-more:hover {
+        text-decoration: underline;
+    }

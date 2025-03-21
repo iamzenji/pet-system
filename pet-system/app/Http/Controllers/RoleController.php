@@ -20,7 +20,6 @@ class RoleController extends Controller
 
         return DataTables::of($roles)
             ->addColumn('actions', function ($role) {
-                // Return the HTML for Edit and Delete buttons
                 return view('pets.role', compact('role'))->render();
             })
             ->make(true);
@@ -49,6 +48,7 @@ class RoleController extends Controller
         return response()->json(['message' => 'Role deleted successfully!']);
     }
 
+    // UPDATE ROLE
     public function update(Request $request, $id)
 {
     $request->validate([

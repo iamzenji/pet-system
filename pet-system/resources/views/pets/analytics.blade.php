@@ -16,18 +16,24 @@
         </div>
     </div>
 
+    {{-- PIE CHART --}}
     <div class="row mt-4">
+        {{-- NUMBER OF PETS --}}
         <div class="col-md-6">
             <div id="petChart" class="chart-container"></div>
             <div id="backButton" class="text-center mt-3" style="display: none;">
                 <button class="btn btn-success">Back to Pet Types</button>
             </div>
         </div>
+
+        {{-- NUMBER OF USER --}}
         <div class="col-md-6">
             <div id="userChart" class="chart-container"></div>
         </div>
+
     </div>
 
+    {{-- BAR GRAPH - MONTHLY ADOPTED --}}
 <div class="row mt-4">
     <div class="col-md-12">
         <div class="d-flex justify-content-start mb-2">
@@ -46,48 +52,6 @@
     </div>
 </div>
 </div>
-<style>
-    .clickable-card {
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    background: #ffffff;
-    border-radius: 5px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-    min-height: 200px;
-    height: 250px;
-    width: 100%;
-}
-
-.clickable-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
-    background-color: #f8f9fa;
-}
-
-.icon-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 60px;
-    height: 60px;
-    background: rgba(15, 111, 213, 0.1);
-    border-radius: 5%;
-}
-
-.chart-container {
-    height: 400px;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    width: 100%;
-}
-
-</style>
 @endsection
 
 <script type="module">

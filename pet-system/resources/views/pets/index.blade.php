@@ -38,7 +38,7 @@
                     <th>Good With</th>
                     <th>Adoption Status</th>
                     <th>Image</th>
-                    <th style="width: 60px;">Actions</th>
+                    <th style="width: 70px;">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,7 +46,6 @@
         </table>
     </div>
 </div>
-
 
     {{-- ADD MODAL --}}
     <div class="modal" id="addPetModal" tabindex="-1" aria-labelledby="addPetModalLabel" aria-hidden="true">

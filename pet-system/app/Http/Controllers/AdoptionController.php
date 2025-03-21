@@ -10,14 +10,14 @@ use Yajra\DataTables\Facades\DataTables;
 
 class AdoptionController extends Controller
 {
-    // PUBLIC VIEW PET
+      // PUBLIC VIEW PET
     public function showAvailablePets()
     {
-        $pets  = Pet::all();
+        $pets = Pet::all();
         return view('list', compact('pets'));
     }
 
-    // STORAGE FORM PUBLIC VIEW
+      // STORAGE FORM PUBLIC VIEW
     public function store(Request $request)
     {
         $request->validate([
@@ -44,14 +44,14 @@ class AdoptionController extends Controller
 
 
 
-    // USER SYSTEM VIEW
+      // USER SYSTEM VIEW
 
     public function index()
     {
         return view('pets.adopt-pet');
     }
 
-    // LIST OF REQUEST
+      // LIST OF REQUEST
     public function list()
 {
     $adoptions = Adoption::with('pet')->select('adoptions.*');
@@ -84,31 +84,31 @@ class AdoptionController extends Controller
         ->make(true);
 }
 
-    // DELETE
+      // DELETE
     public function destroy($id)
     {
         Adoption::findOrFail($id)->delete();
         return response()->json(['message' => 'Adoption request deleted']);
     }
 
-    // UPDATE STATUS
+      // UPDATE STATUS
     public function updateStatus(Request $request, $id)
     {
-        $adoption = Adoption::findOrFail($id);
+        $adoption         = Adoption::findOrFail($id);
         $adoption->status = $request->status;
         $adoption->save();
 
         return response()->json(['success' => 'Status updated successfully.']);
     }
 
-    // UPDATE DATE
+      // UPDATE DATE
     public function updateAdoptedDate(Request $request, $id)
     {
         $request->validate([
             'adopted_date' => 'required|date',
         ]);
 
-        $adoption = Adoption::findOrFail($id);
+        $adoption               = Adoption::findOrFail($id);
         $adoption->adopted_date = $request->adopted_date;
         $adoption->save();
 
@@ -117,7 +117,7 @@ class AdoptionController extends Controller
 
 
 
-    // REALTIME BAR GRAPH
+      // REALTIME BAR GRAPH
     public function getAdoptionChartData($year = null)
     {
         $year = $year ?? date('Y');
@@ -140,7 +140,7 @@ class AdoptionController extends Controller
         }
 
         return response()->json([
-            'months' => $months,
+            'months'    => $months,
             'adoptions' => $adoptionCounts
         ]);
     }
